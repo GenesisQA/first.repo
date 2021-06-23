@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20210623 23:32:24.933" schemaversion="2" generator="Robot 4.0.3 (Python 2.7.16 on darwin)">
+<suite source="/Users/abiewardani/Documents/Project/python/roboframework/TestCases/TC_Auth.robot" id="s1" name="TC Auth">
+<test id="s1-t1" name="PostFailedLogin">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>httpAuth</arg>
+<arg>${base_url}</arg>
+<arg>verify=true</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210623 23:32:25.037" level="INFO">Creating Session using : alias=httpAuth, url=https://api.stg-genesis.lionparcel.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" endtime="20210623 23:32:25.038" starttime="20210623 23:32:25.037"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{data}</var>
+<arg>email=caaa@thelionparcel.com</arg>
+<arg>password=Genesis123</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210623 23:32:25.039" level="INFO">&amp;{data} = { email=caaa@thelionparcel.com | password=Genesis123 }</msg>
+<status status="PASS" endtime="20210623 23:32:25.039" starttime="20210623 23:32:25.038"/>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>httpAuth</arg>
+<arg>/horde/v1/auth/login</arg>
+<arg>json=${data}</arg>
+<doc>*DEPRECATED* Please use `POST On Session` instead.</doc>
+<msg timestamp="20210623 23:32:25.039" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg timestamp="20210623 23:32:25.357" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+ path_url=/horde/v1/auth/login 
+ headers={'Content-Length': '61', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body={"email": "caaa@thelionparcel.com", "password": "Genesis123"} 
+ </msg>
+<msg timestamp="20210623 23:32:25.357" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+ status=422, reason=Unprocessable Entity 
+ headers={'Content-Length': '90', 'Via': 'kong/2.1.4, 1.1 google', 'X-Kong-Proxy-Latency': '1', 'vary': 'Origin', 'X-Request-Id': 'd8SgH0WHOsznaEQGVo8S8TyHWaZqD2ib', 'Date': 'Wed, 23 Jun 2021 16:32:25 GMT', 'Access-Control-Allow-Origin': '*', 'Alt-Svc': 'clear', 'Content-Type': 'application/json; charset=UTF-8', 'X-Kong-Upstream-Latency': '2'} 
+ body={"code":100,"message":{"en":"This email not registered","id":"Akun ini tidak terdaftar"}}
+ 
+ </msg>
+<msg timestamp="20210623 23:32:25.358" level="INFO">${resp} = &lt;Response [422]&gt;</msg>
+<status status="PASS" endtime="20210623 23:32:25.358" starttime="20210623 23:32:25.039"/>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<var>${jsondata}</var>
+<arg>${resp.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<msg timestamp="20210623 23:32:25.359" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg timestamp="20210623 23:32:25.361" level="INFO">To JSON using : content={"code":100,"message":{"en":"This email not registered","id":"Akun ini tidak terdaftar"}}
+ </msg>
+<msg timestamp="20210623 23:32:25.361" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20210623 23:32:25.361" level="INFO">${jsondata} = {u'message': {u'en': u'This email not registered', u'id': u'Akun ini tidak terdaftar'}, u'code': 100}</msg>
+<status status="PASS" endtime="20210623 23:32:25.361" starttime="20210623 23:32:25.358"/>
+</kw>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<msg timestamp="20210623 23:32:25.364" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20210623 23:32:25.364" starttime="20210623 23:32:25.362"/>
+</kw>
+<tag>Failed Login</tag>
+<status status="PASS" endtime="20210623 23:32:25.365" starttime="20210623 23:32:25.036"/>
+</test>
+<test id="s1-t2" name="PostSuccessLogin">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>httpAuth</arg>
+<arg>${base_url}</arg>
+<arg>verify=true</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210623 23:32:25.367" level="INFO">Creating Session using : alias=httpAuth, url=https://api.stg-genesis.lionparcel.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" endtime="20210623 23:32:25.368" starttime="20210623 23:32:25.367"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{data}</var>
+<arg>email=ca@thelionparcel.com</arg>
+<arg>password=Genesis123</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210623 23:32:25.370" level="INFO">&amp;{data} = { email=ca@thelionparcel.com | password=Genesis123 }</msg>
+<status status="PASS" endtime="20210623 23:32:25.370" starttime="20210623 23:32:25.369"/>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>httpAuth</arg>
+<arg>/horde/v1/auth/login</arg>
+<arg>json=${data}</arg>
+<doc>*DEPRECATED* Please use `POST On Session` instead.</doc>
+<msg timestamp="20210623 23:32:25.371" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg timestamp="20210623 23:32:25.533" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+ path_url=/horde/v1/auth/login 
+ headers={'Content-Length': '59', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body={"email": "ca@thelionparcel.com", "password": "Genesis123"} 
+ </msg>
+<msg timestamp="20210623 23:32:25.533" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+ status=200, reason=OK 
+ headers={'Content-Length': '895', 'Via': 'kong/2.1.4, 1.1 google', 'X-Kong-Proxy-Latency': '0', 'vary': 'Origin', 'X-Request-Id': 'yvIzllZvrizofT5clU30RyllYWraIx1R', 'Date': 'Wed, 23 Jun 2021 16:32:25 GMT', 'Access-Control-Allow-Origin': '*', 'Alt-Svc': 'clear', 'Content-Type': 'application/json; charset=UTF-8', 'X-Kong-Upstream-Latency': '5'} 
+ body={"success":true,"code":200,"message":"Success Login","data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJwYXJ0bmVyX2NvZGUiOiIiLCJwYXJ0bmVyX25hbWUiOiIiLCJjbGllbnRfaWQiOjM1OSwiY2xpZW50X25hbWUiOiJDdXN0b21lciBBcHBzIiwiY2xpZW50X2NvZGUiOiJDQVAiLCJ1c2VybmFtZSI6ImNhIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX2NsaWVudCJ9.N_dzkOnp7AnwDQbKeoGNDvsmFg-mOnCRNeeigHADkt3JwtUBveWQFF1f9SllL6fAM1h041lwnzMKp3t22qkvQQ6q5oFQLgUAE0NGOL-YPqzfUaxIxQk_gm6F7EvKvhSbEEgWokMqFoidXE1YDkDFZWaz5EUtdeq4B5rHaTQPhG8K6P7yCkoSWCVn9k9cix8aYuAg4bOLm9jNnJyaMUAnieviPbpS0g7RC9-SLrDYWK56H29a_uFKov5dIOes0ecL6W5zKIx8VVAuDDg-yu89HtnhjruVAUOh5LJqsYTVoDDx1-61EeOsFz6SL6Va8g24CAN89o7WTfu0kF-J9fNN6A","type":"Bearer","expired_at":"2021-06-28T23:32:25+07:00"}}
+ 
+ </msg>
+<msg timestamp="20210623 23:32:25.534" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20210623 23:32:25.534" starttime="20210623 23:32:25.371"/>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<var>${jsondata}</var>
+<arg>${resp.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<msg timestamp="20210623 23:32:25.535" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg timestamp="20210623 23:32:25.538" level="INFO">To JSON using : content={"success":true,"code":200,"message":"Success Login","data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJwYXJ0bmVyX2NvZGUiOiIiLCJwYXJ0bmVyX25hbWUiOiIiLCJjbGllbnRfaWQiOjM1OSwiY2xpZW50X25hbWUiOiJDdXN0b21lciBBcHBzIiwiY2xpZW50X2NvZGUiOiJDQVAiLCJ1c2VybmFtZSI6ImNhIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX2NsaWVudCJ9.N_dzkOnp7AnwDQbKeoGNDvsmFg-mOnCRNeeigHADkt3JwtUBveWQFF1f9SllL6fAM1h041lwnzMKp3t22qkvQQ6q5oFQLgUAE0NGOL-YPqzfUaxIxQk_gm6F7EvKvhSbEEgWokMqFoidXE1YDkDFZWaz5EUtdeq4B5rHaTQPhG8K6P7yCkoSWCVn9k9cix8aYuAg4bOLm9jNnJyaMUAnieviPbpS0g7RC9-SLrDYWK56H29a_uFKov5dIOes0ecL6W5zKIx8VVAuDDg-yu89HtnhjruVAUOh5LJqsYTVoDDx1-61EeOsFz6SL6Va8g24CAN89o7WTfu0kF-J9fNN6A","type":"Bearer","expired_at":"2021-06-28T23:32:25+07:00"}}
+ </msg>
+<msg timestamp="20210623 23:32:25.538" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20210623 23:32:25.538" level="INFO">${jsondata} = {u'message': u'Success Login', u'code': 200, u'data': {u'token': u'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIs...</msg>
+<status status="PASS" endtime="20210623 23:32:25.538" starttime="20210623 23:32:25.535"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210623 23:32:25.541" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20210623 23:32:25.541" starttime="20210623 23:32:25.539"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['type']}</arg>
+<arg>Bearer</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" endtime="20210623 23:32:25.544" starttime="20210623 23:32:25.542"/>
+</kw>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['token']}</arg>
+<arg>""</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<status status="PASS" endtime="20210623 23:32:25.547" starttime="20210623 23:32:25.545"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${bearerToken}</var>
+<arg>${jsondata['data']['token']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210623 23:32:25.549" level="INFO">${bearerToken} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJ...</msg>
+<status status="PASS" endtime="20210623 23:32:25.549" starttime="20210623 23:32:25.547"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${bearerToken}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210623 23:32:25.550" level="INFO">${bearerToken} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJ...</msg>
+<status status="PASS" endtime="20210623 23:32:25.550" starttime="20210623 23:32:25.549"/>
+</kw>
+<tag>Success Login</tag>
+<status status="PASS" endtime="20210623 23:32:25.551" starttime="20210623 23:32:25.365"/>
+</test>
+<test id="s1-t3" name="GetProfile">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>httpGetProfile</arg>
+<arg>${base_url}</arg>
+<arg>verify=true</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20210623 23:32:25.552" level="INFO">Creating Session using : alias=httpGetProfile, url=https://api.stg-genesis.lionparcel.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" endtime="20210623 23:32:25.553" starttime="20210623 23:32:25.552"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${bearerToken}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210623 23:32:25.554" level="INFO">${header} = {u'Authorization': u'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGU...</msg>
+<status status="PASS" endtime="20210623 23:32:25.554" starttime="20210623 23:32:25.553"/>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>httpGetProfile</arg>
+<arg>/horde/v1/account/profile</arg>
+<arg>headers=${header}</arg>
+<doc>*DEPRECATED* Please use `GET On Session` instead.</doc>
+<msg timestamp="20210623 23:32:25.555" level="WARN">Keyword 'RequestsLibrary.Get Request' is deprecated. Please use `GET On Session` instead.</msg>
+<msg timestamp="20210623 23:32:25.745" level="INFO">GET Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/account/profile 
+ path_url=/horde/v1/account/profile 
+ headers={'Authorization': u'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJwYXJ0bmVyX2NvZGUiOiIiLCJwYXJ0bmVyX25hbWUiOiIiLCJjbGllbnRfaWQiOjM1OSwiY2xpZW50X25hbWUiOiJDdXN0b21lciBBcHBzIiwiY2xpZW50X2NvZGUiOiJDQVAiLCJ1c2VybmFtZSI6ImNhIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX2NsaWVudCJ9.N_dzkOnp7AnwDQbKeoGNDvsmFg-mOnCRNeeigHADkt3JwtUBveWQFF1f9SllL6fAM1h041lwnzMKp3t22qkvQQ6q5oFQLgUAE0NGOL-YPqzfUaxIxQk_gm6F7EvKvhSbEEgWokMqFoidXE1YDkDFZWaz5EUtdeq4B5rHaTQPhG8K6P7yCkoSWCVn9k9cix8aYuAg4bOLm9jNnJyaMUAnieviPbpS0g7RC9-SLrDYWK56H29a_uFKov5dIOes0ecL6W5zKIx8VVAuDDg-yu89HtnhjruVAUOh5LJqsYTVoDDx1-61EeOsFz6SL6Va8g24CAN89o7WTfu0kF-J9fNN6A', 'Connection': 'keep-alive', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0'} 
+ body=None 
+ </msg>
+<msg timestamp="20210623 23:32:25.745" level="INFO">GET Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/account/profile 
+ status=200, reason=OK 
+ headers={'X-Request-Id': 'phNFkd0aemL38siTA8FosI9pP62Jz7oj', 'Via': 'kong/2.1.4, 1.1 google', 'Transfer-Encoding': 'chunked', 'vary': 'Origin', 'X-Kong-Proxy-Latency': '1', 'Date': 'Wed, 23 Jun 2021 16:32:25 GMT', 'Access-Control-Allow-Origin': '*', 'Alt-Svc': 'clear', 'Content-Type': 'application/json; charset=UTF-8', 'X-Kong-Upstream-Latency': '5'} 
+ body={"success":true,"code":200,"message":"Success","data":{"account_id":198,"username":"ca","name":"ca","role_type":"admin_client","role_permission":[{"permission_id":2,"parent_id":0,"name":"user_management_enable"},{"permission_id":3,"parent_id":2,"name":"user_management_account_create"},{"permission_id":4,"parent_id":2,"name":"user_management_account_detail_view"},{"permission_id":5,"parent_id":2,"name":"user_management_account_list_view"},{"permission_id":6,"parent_id":2,"name":"user_management_account_detail_edit"},{"permission_id":32,"parent_id":0,"name":"invoice_enable"},{"permission_id":34,"parent_id":32,"name":"invoice_list_view"},{"permission_id":35,"parent_id":32,"name":"invoice_detail_view"},{"permission_id":111,"parent_id":0,"name":"shipment_tracking_stt_enable"},{"permission_id":112,"parent_id":111,"name":"shipment_tracking_stt_detail_view"},{"permission_id":123,"parent_id":0,"name":"shipment_ecargo_tracking_enable"},{"permission_id":124,"parent_id":123,"name":"shipment_ecargo_tracking_detail_view"},{"permission_id":134,"parent_id":130,"name":"shipment_bagging_list_enable"},{"permission_id":150,"parent_id":0,"name":"shipment_stt_manual_enable"},{"permission_id":151,"parent_id":150,"name":"shipment_stt_manual_list"},{"permission_id":152,"parent_id":150,"name":"shipment_stt_manual_create"},{"permission_id":153,"parent_id":150,"name":"shipment_stt_manual_download"},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":164,"parent_id":0,"name":"shipment_stt_manual_add"},{"permission_id":171,"parent_id":176,"name":"create_booking_manual_create"},{"permission_id":176,"parent_id":0,"name":"booking_feature_enable"},{"permission_id":174,"parent_id":176,"name":"booking_list_view"},{"permission_id":175,"parent_id":176,"name":"booking_detail_view"},{"permission_id":191,"parent_id":0,"name":"check_tariff_enable"},{"permission_id":192,"parent_id":191,"name":"check_tariff_list_view"},{"permission_id":195,"parent_id":191,"name":"check_tariff_client_filter_view"},{"permission_id":193,"parent_id":191,"name":"check_tariff_detail_view"},{"permission_id":194,"parent_id":191,"name":"check_tariff_button_booking_view"},{"permission_id":18,"parent_id":17,"name":"bulk_upload_create"},{"permission_id":250,"parent_id":17,"name":"bulk_upload_detail_view"},{"permission_id":17,"parent_id":0,"name":"bulk_upload_enable"},{"permission_id":19,"parent_id":17,"name":"bulk_upload_list_view"},{"permission_id":252,"parent_id":17,"name":"bulk_upload_type_account"},{"permission_id":251,"parent_id":17,"name":"bulk_upload_type_role"},{"permission_id":265,"parent_id":176,"name":"shipment_create_booking_type_manual"},{"permission_id":295,"parent_id":176,"name":"booking_edit"},{"permission_id":294,"parent_id":176,"name":"booking_view_detail"},{"permission_id":293,"parent_id":176,"name":"booking_view_list"},{"permission_id":296,"parent_id":176,"name":"booking_create_manual"},{"permission_id":302,"parent_id":299,"name":"bulk_booking_create"},{"permission_id":301,"parent_id":299,"name":"bulk_booking_detail_view"},{"permission_id":299,"parent_id":0,"name":"bulk_booking_enable"},{"permission_id":300,"parent_id":299,"name":"bulk_booking_list_view"},{"permission_id":312,"parent_id":308,"name":"saldo_beneficiary_account_add_detail"},{"permission_id":313,"parent_id":308,"name":"saldo_beneficiary_account_edit_detail"},{"permission_id":311,"parent_id":308,"name":"saldo_beneficiary_account_view_detail"},{"permission_id":308,"parent_id":0,"name":"saldo_enable"},{"permission_id":310,"parent_id":308,"name":"saldo_withdraw_request_detail"},{"permission_id":309,"parent_id":308,"name":"saldo_withdraw_view_detail"},{"permission_id":320,"parent_id":314,"name":"cod_beneficiary_account_add_detail"},{"permission_id":321,"parent_id":314,"name":"cod_beneficiary_account_edit_detail"},{"permission_id":319,"parent_id":314,"name":"cod_beneficiary_account_view_detail"},{"permission_id":314,"parent_id":0,"name":"cod_enable"},{"permission_id":316,"parent_id":314,"name":"cod_view_amount_bar"},{"permission_id":315,"parent_id":314,"name":"cod_view_list"},{"permission_id":318,"parent_id":314,"name":"cod_withdraw_request_detail"},{"permission_id":317,"parent_id":314,"name":"cod_withdraw_view_detail"},{"permission_id":322,"parent_id":0,"name":"cargo_tracking_enable"},{"permission_id":323,"parent_id":0,"name":"stt_tracking_enable"},{"permission_id":236,"parent_id":0,"name":"pickup_manifest_enable"},{"permission_id":237,"parent_id":236,"name":"pickup_manifest_list_view"},{"permission_id":238,"parent_id":236,"name":"pickup_manifest_create"}],"account_type":"client","account_type_detail":{"id":359,"code":"CAP","company_name":"Customer Apps","phone":"628561202012","email":"customer_apps@gmail.com","tax_number":"09.314.652.0-987.319","status":"approved","address":"jakarta","balance":0,"status_updated_at":"2021-04-27T15:00:27+07:00","status_updated_by":12,"status_updated_reason":"-","district_code":"DIST63710","is_do":true,"is_mixpack":false,"created_at":"2021-04-20T13:45:12+07:00","updated_at":"2021-05-03T20:07:37+07:00","created_by":170,"updated_by":12,"client_category":"B2B","client_bank_name":"BCA","client_bank_account_name":"Lion Parcel","client_bank_account_number":"123456789","client_bank_account_email":"lp@lp.com","client_is_cod":false,"client_contact_name":"Jamal","client_contact_job_title":"CEO","client_contact_email":"jamalbhgiacelalu@gmail.com","client_contact_phone":"6285612021711","client_partner_pos_id":0,"client_partner_pos_commission":0,"client_partner_pos_quantifier_commission":"","client_is_banned":false,"client_banned_reason":"","client_code_elexys":"","client_parent_id":0,"Type":""},"account_location":{"district_id":0,"district_code":"","district_name":"","city_id":0,"city_code":"","city_name":"","city_free_trade_zone":"","default_location":false},"account_location_list":null,"email":"ca@thelionparcel.com","phone_number":"628900000011","limit_rule_min_balance":100000,"limit_rule_limit_border":10000}}
+ 
+ </msg>
+<msg timestamp="20210623 23:32:25.746" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20210623 23:32:25.746" starttime="20210623 23:32:25.554"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210623 23:32:25.748" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20210623 23:32:25.748" starttime="20210623 23:32:25.746"/>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<var>${jsondata}</var>
+<arg>${resp.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<msg timestamp="20210623 23:32:25.748" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg timestamp="20210623 23:32:25.750" level="INFO">To JSON using : content={"success":true,"code":200,"message":"Success","data":{"account_id":198,"username":"ca","name":"ca","role_type":"admin_client","role_permission":[{"permission_id":2,"parent_id":0,"name":"user_management_enable"},{"permission_id":3,"parent_id":2,"name":"user_management_account_create"},{"permission_id":4,"parent_id":2,"name":"user_management_account_detail_view"},{"permission_id":5,"parent_id":2,"name":"user_management_account_list_view"},{"permission_id":6,"parent_id":2,"name":"user_management_account_detail_edit"},{"permission_id":32,"parent_id":0,"name":"invoice_enable"},{"permission_id":34,"parent_id":32,"name":"invoice_list_view"},{"permission_id":35,"parent_id":32,"name":"invoice_detail_view"},{"permission_id":111,"parent_id":0,"name":"shipment_tracking_stt_enable"},{"permission_id":112,"parent_id":111,"name":"shipment_tracking_stt_detail_view"},{"permission_id":123,"parent_id":0,"name":"shipment_ecargo_tracking_enable"},{"permission_id":124,"parent_id":123,"name":"shipment_ecargo_tracking_detail_view"},{"permission_id":134,"parent_id":130,"name":"shipment_bagging_list_enable"},{"permission_id":150,"parent_id":0,"name":"shipment_stt_manual_enable"},{"permission_id":151,"parent_id":150,"name":"shipment_stt_manual_list"},{"permission_id":152,"parent_id":150,"name":"shipment_stt_manual_create"},{"permission_id":153,"parent_id":150,"name":"shipment_stt_manual_download"},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":164,"parent_id":0,"name":"shipment_stt_manual_add"},{"permission_id":171,"parent_id":176,"name":"create_booking_manual_create"},{"permission_id":176,"parent_id":0,"name":"booking_feature_enable"},{"permission_id":174,"parent_id":176,"name":"booking_list_view"},{"permission_id":175,"parent_id":176,"name":"booking_detail_view"},{"permission_id":191,"parent_id":0,"name":"check_tariff_enable"},{"permission_id":192,"parent_id":191,"name":"check_tariff_list_view"},{"permission_id":195,"parent_id":191,"name":"check_tariff_client_filter_view"},{"permission_id":193,"parent_id":191,"name":"check_tariff_detail_view"},{"permission_id":194,"parent_id":191,"name":"check_tariff_button_booking_view"},{"permission_id":18,"parent_id":17,"name":"bulk_upload_create"},{"permission_id":250,"parent_id":17,"name":"bulk_upload_detail_view"},{"permission_id":17,"parent_id":0,"name":"bulk_upload_enable"},{"permission_id":19,"parent_id":17,"name":"bulk_upload_list_view"},{"permission_id":252,"parent_id":17,"name":"bulk_upload_type_account"},{"permission_id":251,"parent_id":17,"name":"bulk_upload_type_role"},{"permission_id":265,"parent_id":176,"name":"shipment_create_booking_type_manual"},{"permission_id":295,"parent_id":176,"name":"booking_edit"},{"permission_id":294,"parent_id":176,"name":"booking_view_detail"},{"permission_id":293,"parent_id":176,"name":"booking_view_list"},{"permission_id":296,"parent_id":176,"name":"booking_create_manual"},{"permission_id":302,"parent_id":299,"name":"bulk_booking_create"},{"permission_id":301,"parent_id":299,"name":"bulk_booking_detail_view"},{"permission_id":299,"parent_id":0,"name":"bulk_booking_enable"},{"permission_id":300,"parent_id":299,"name":"bulk_booking_list_view"},{"permission_id":312,"parent_id":308,"name":"saldo_beneficiary_account_add_detail"},{"permission_id":313,"parent_id":308,"name":"saldo_beneficiary_account_edit_detail"},{"permission_id":311,"parent_id":308,"name":"saldo_beneficiary_account_view_detail"},{"permission_id":308,"parent_id":0,"name":"saldo_enable"},{"permission_id":310,"parent_id":308,"name":"saldo_withdraw_request_detail"},{"permission_id":309,"parent_id":308,"name":"saldo_withdraw_view_detail"},{"permission_id":320,"parent_id":314,"name":"cod_beneficiary_account_add_detail"},{"permission_id":321,"parent_id":314,"name":"cod_beneficiary_account_edit_detail"},{"permission_id":319,"parent_id":314,"name":"cod_beneficiary_account_view_detail"},{"permission_id":314,"parent_id":0,"name":"cod_enable"},{"permission_id":316,"parent_id":314,"name":"cod_view_amount_bar"},{"permission_id":315,"parent_id":314,"name":"cod_view_list"},{"permission_id":318,"parent_id":314,"name":"cod_withdraw_request_detail"},{"permission_id":317,"parent_id":314,"name":"cod_withdraw_view_detail"},{"permission_id":322,"parent_id":0,"name":"cargo_tracking_enable"},{"permission_id":323,"parent_id":0,"name":"stt_tracking_enable"},{"permission_id":236,"parent_id":0,"name":"pickup_manifest_enable"},{"permission_id":237,"parent_id":236,"name":"pickup_manifest_list_view"},{"permission_id":238,"parent_id":236,"name":"pickup_manifest_create"}],"account_type":"client","account_type_detail":{"id":359,"code":"CAP","company_name":"Customer Apps","phone":"628561202012","email":"customer_apps@gmail.com","tax_number":"09.314.652.0-987.319","status":"approved","address":"jakarta","balance":0,"status_updated_at":"2021-04-27T15:00:27+07:00","status_updated_by":12,"status_updated_reason":"-","district_code":"DIST63710","is_do":true,"is_mixpack":false,"created_at":"2021-04-20T13:45:12+07:00","updated_at":"2021-05-03T20:07:37+07:00","created_by":170,"updated_by":12,"client_category":"B2B","client_bank_name":"BCA","client_bank_account_name":"Lion Parcel","client_bank_account_number":"123456789","client_bank_account_email":"lp@lp.com","client_is_cod":false,"client_contact_name":"Jamal","client_contact_job_title":"CEO","client_contact_email":"jamalbhgiacelalu@gmail.com","client_contact_phone":"6285612021711","client_partner_pos_id":0,"client_partner_pos_commission":0,"client_partner_pos_quantifier_commission":"","client_is_banned":false,"client_banned_reason":"","client_code_elexys":"","client_parent_id":0,"Type":""},"account_location":{"district_id":0,"district_code":"","district_name":"","city_id":0,"city_code":"","city_name":"","city_free_trade_zone":"","default_location":false},"account_location_list":null,"email":"ca@thelionparcel.com","phone_number":"628900000011","limit_rule_min_balance":100000,"limit_rule_limit_border":10000}}
+ </msg>
+<msg timestamp="20210623 23:32:25.750" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20210623 23:32:25.751" level="INFO">${jsondata} = {u'message': u'Success', u'code': 200, u'data': {u'username': u'ca', u'phone_number': u'628900000011', u'account_type': u'client', u'account_id': 198, u'limit_rule_limit_border': 10000, u'email': u'ca...</msg>
+<status status="PASS" endtime="20210623 23:32:25.751" starttime="20210623 23:32:25.748"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['username']}</arg>
+<arg>${username}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" endtime="20210623 23:32:25.753" starttime="20210623 23:32:25.751"/>
+</kw>
+<kw name="Get Length" library="BuiltIn">
+<var>${cnt}</var>
+<arg>${jsondata['data']['role_permission']}</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<msg timestamp="20210623 23:32:25.755" level="INFO">Length is 64</msg>
+<msg timestamp="20210623 23:32:25.755" level="INFO">${cnt} = 64</msg>
+<status status="PASS" endtime="20210623 23:32:25.755" starttime="20210623 23:32:25.753"/>
+</kw>
+<kw name="Should Be True" library="BuiltIn">
+<arg>${cnt} &gt; 0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" endtime="20210623 23:32:25.756" starttime="20210623 23:32:25.755"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['email']}</arg>
+<arg>${email}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" endtime="20210623 23:32:25.757" starttime="20210623 23:32:25.756"/>
+</kw>
+<tag>Get Profile</tag>
+<status status="PASS" endtime="20210623 23:32:25.758" starttime="20210623 23:32:25.551"/>
+</test>
+<status status="PASS" endtime="20210623 23:32:25.759" starttime="20210623 23:32:24.936"/>
+</suite>
+<statistics>
+<total>
+<stat fail="0" skip="0" pass="3">All Tests</stat>
+</total>
+<tag>
+<stat fail="0" skip="0" pass="1">Failed Login</stat>
+<stat fail="0" skip="0" pass="1">Get Profile</stat>
+<stat fail="0" skip="0" pass="1">Success Login</stat>
+</tag>
+<suite>
+<stat fail="0" skip="0" id="s1" name="TC Auth" pass="3">TC Auth</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20210623 23:32:25.039" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg timestamp="20210623 23:32:25.359" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg timestamp="20210623 23:32:25.371" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg timestamp="20210623 23:32:25.535" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg timestamp="20210623 23:32:25.555" level="WARN">Keyword 'RequestsLibrary.Get Request' is deprecated. Please use `GET On Session` instead.</msg>
+<msg timestamp="20210623 23:32:25.748" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+</errors>
+</robot>
