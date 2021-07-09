@@ -1,259 +1,1538 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot rpa="false" generated="20210623 23:32:24.933" schemaversion="2" generator="Robot 4.0.3 (Python 2.7.16 on darwin)">
-<suite source="/Users/abiewardani/Documents/Project/python/roboframework/TestCases/TC_Auth.robot" id="s1" name="TC Auth">
-<test id="s1-t1" name="PostFailedLogin">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>httpAuth</arg>
-<arg>${base_url}</arg>
-<arg>verify=true</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20210623 23:32:25.037" level="INFO">Creating Session using : alias=httpAuth, url=https://api.stg-genesis.lionparcel.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
-<status status="PASS" endtime="20210623 23:32:25.038" starttime="20210623 23:32:25.037"/>
+<robot generator="Robot 4.0.3 (Python 3.9.5 on darwin)" generated="20210628 14:28:41.475" rpa="false" schemaversion="2">
+<suite id="s1" name="TC Edit Cargo" source="/Users/lion/Downloads/roboframework/TestCases/TC_Edit_Cargo.robot">
+<test id="s1-t1" name="Preparation 1 create token pos and console">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/auth/fposbgr1.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:41.670" level="INFO">${json} = {'password': '123456', 'email': 'fposbgr1'}</msg>
+<status status="PASS" starttime="20210628 14:28:41.670" endtime="20210628 14:28:41.670"/>
 </kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>&amp;{data}</var>
-<arg>email=caaa@thelionparcel.com</arg>
-<arg>password=Genesis123</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20210623 23:32:25.039" level="INFO">&amp;{data} = { email=caaa@thelionparcel.com | password=Genesis123 }</msg>
-<status status="PASS" endtime="20210623 23:32:25.039" starttime="20210623 23:32:25.038"/>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:41.672" level="INFO">${JSON_SCHEMA} = {'password': '123456', 'email': 'fposbgr1'}</msg>
+<status status="PASS" starttime="20210628 14:28:41.671" endtime="20210628 14:28:41.672"/>
 </kw>
-<kw name="Post Request" library="RequestsLibrary">
+<kw name="POST" library="RequestsLibrary">
 <var>${resp}</var>
-<arg>httpAuth</arg>
-<arg>/horde/v1/auth/login</arg>
-<arg>json=${data}</arg>
-<doc>*DEPRECATED* Please use `POST On Session` instead.</doc>
-<msg timestamp="20210623 23:32:25.039" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
-<msg timestamp="20210623 23:32:25.357" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+<arg>${base_url}/horde/v1/auth/login</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:41.749" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
  path_url=/horde/v1/auth/login 
- headers={'Content-Length': '61', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
- body={"email": "caaa@thelionparcel.com", "password": "Genesis123"} 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '43', 'Content-Type': 'application/json'} 
+ body=b'{"password": "123456", "email": "fposbgr1"}' 
  </msg>
-<msg timestamp="20210623 23:32:25.357" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
- status=422, reason=Unprocessable Entity 
- headers={'Content-Length': '90', 'Via': 'kong/2.1.4, 1.1 google', 'X-Kong-Proxy-Latency': '1', 'vary': 'Origin', 'X-Request-Id': 'd8SgH0WHOsznaEQGVo8S8TyHWaZqD2ib', 'Date': 'Wed, 23 Jun 2021 16:32:25 GMT', 'Access-Control-Allow-Origin': '*', 'Alt-Svc': 'clear', 'Content-Type': 'application/json; charset=UTF-8', 'X-Kong-Upstream-Latency': '2'} 
- body={"code":100,"message":{"en":"This email not registered","id":"Akun ini tidak terdaftar"}}
- 
- </msg>
-<msg timestamp="20210623 23:32:25.358" level="INFO">${resp} = &lt;Response [422]&gt;</msg>
-<status status="PASS" endtime="20210623 23:32:25.358" starttime="20210623 23:32:25.039"/>
-</kw>
-<kw name="To Json" library="RequestsLibrary">
-<var>${jsondata}</var>
-<arg>${resp.content}</arg>
-<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
-<msg timestamp="20210623 23:32:25.359" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
-<msg timestamp="20210623 23:32:25.361" level="INFO">To JSON using : content={"code":100,"message":{"en":"This email not registered","id":"Akun ini tidak terdaftar"}}
- </msg>
-<msg timestamp="20210623 23:32:25.361" level="INFO">To JSON using : pretty_print=False </msg>
-<msg timestamp="20210623 23:32:25.361" level="INFO">${jsondata} = {u'message': {u'en': u'This email not registered', u'id': u'Akun ini tidak terdaftar'}, u'code': 100}</msg>
-<status status="PASS" endtime="20210623 23:32:25.361" starttime="20210623 23:32:25.358"/>
-</kw>
-<kw name="Should Not Be Equal As Strings" library="BuiltIn">
-<arg>${resp.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are equal after converting them to strings.</doc>
-<msg timestamp="20210623 23:32:25.364" level="INFO">Argument types are:
-&lt;type 'int'&gt;
-&lt;type 'unicode'&gt;</msg>
-<status status="PASS" endtime="20210623 23:32:25.364" starttime="20210623 23:32:25.362"/>
-</kw>
-<tag>Failed Login</tag>
-<status status="PASS" endtime="20210623 23:32:25.365" starttime="20210623 23:32:25.036"/>
-</test>
-<test id="s1-t2" name="PostSuccessLogin">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>httpAuth</arg>
-<arg>${base_url}</arg>
-<arg>verify=true</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20210623 23:32:25.367" level="INFO">Creating Session using : alias=httpAuth, url=https://api.stg-genesis.lionparcel.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
-<status status="PASS" endtime="20210623 23:32:25.368" starttime="20210623 23:32:25.367"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>&amp;{data}</var>
-<arg>email=ca@thelionparcel.com</arg>
-<arg>password=Genesis123</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20210623 23:32:25.370" level="INFO">&amp;{data} = { email=ca@thelionparcel.com | password=Genesis123 }</msg>
-<status status="PASS" endtime="20210623 23:32:25.370" starttime="20210623 23:32:25.369"/>
-</kw>
-<kw name="Post Request" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>httpAuth</arg>
-<arg>/horde/v1/auth/login</arg>
-<arg>json=${data}</arg>
-<doc>*DEPRECATED* Please use `POST On Session` instead.</doc>
-<msg timestamp="20210623 23:32:25.371" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
-<msg timestamp="20210623 23:32:25.533" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
- path_url=/horde/v1/auth/login 
- headers={'Content-Length': '59', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
- body={"email": "ca@thelionparcel.com", "password": "Genesis123"} 
- </msg>
-<msg timestamp="20210623 23:32:25.533" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+<msg timestamp="20210628 14:28:41.749" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
  status=200, reason=OK 
- headers={'Content-Length': '895', 'Via': 'kong/2.1.4, 1.1 google', 'X-Kong-Proxy-Latency': '0', 'vary': 'Origin', 'X-Request-Id': 'yvIzllZvrizofT5clU30RyllYWraIx1R', 'Date': 'Wed, 23 Jun 2021 16:32:25 GMT', 'Access-Control-Allow-Origin': '*', 'Alt-Svc': 'clear', 'Content-Type': 'application/json; charset=UTF-8', 'X-Kong-Upstream-Latency': '5'} 
- body={"success":true,"code":200,"message":"Success Login","data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJwYXJ0bmVyX2NvZGUiOiIiLCJwYXJ0bmVyX25hbWUiOiIiLCJjbGllbnRfaWQiOjM1OSwiY2xpZW50X25hbWUiOiJDdXN0b21lciBBcHBzIiwiY2xpZW50X2NvZGUiOiJDQVAiLCJ1c2VybmFtZSI6ImNhIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX2NsaWVudCJ9.N_dzkOnp7AnwDQbKeoGNDvsmFg-mOnCRNeeigHADkt3JwtUBveWQFF1f9SllL6fAM1h041lwnzMKp3t22qkvQQ6q5oFQLgUAE0NGOL-YPqzfUaxIxQk_gm6F7EvKvhSbEEgWokMqFoidXE1YDkDFZWaz5EUtdeq4B5rHaTQPhG8K6P7yCkoSWCVn9k9cix8aYuAg4bOLm9jNnJyaMUAnieviPbpS0g7RC9-SLrDYWK56H29a_uFKov5dIOes0ecL6W5zKIx8VVAuDDg-yu89HtnhjruVAUOh5LJqsYTVoDDx1-61EeOsFz6SL6Va8g24CAN89o7WTfu0kF-J9fNN6A","type":"Bearer","expired_at":"2021-06-28T23:32:25+07:00"}}
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '915', 'X-Request-Id': 'beQcKkftdseQoBLjgQfaba2VCRcREIaP', 'Date': 'Mon, 28 Jun 2021 07:28:41 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '7', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success Login","data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5lcl9pZCI6MTgsInBhcnRuZXJfY29kZSI6IlBPU0JHUjEiLCJwYXJ0bmVyX25hbWUiOiJQb3MgUGFub3JhbWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZwb3NiZ3IxIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX3BvcyJ9.XNskuGnm88-Th_ltd2YyoyjdbIER1akMLoiON3Frzsz50JsarjBKKfBr1E8Wq5jL5tRz8UZEgSujCnay3O3DvFghZSC9O8fEJSseV_I-gyArisXVckC4yHujPvorLnxNqCVdTaPgEev0CWiSleKRsLQcFEc4tJk4SqlgwX9CI9_Q8jnF68x98gd91sD0aFco-ires8qLnAFu6lczGrTpBaIPLq7iksrvAEtogqC2ylG8EGwLfw_s91LtRvXw63suoRbZrBWKrpylF45it2er7QRDEWFjdUdovbU0ON4G8mF0tb6IaFXdU2gdkjqv-bMQQ_A8pwvyXczfljcs5rfeoA","type":"Bearer","expired_at":"2021-07-03T14:28:41+07:00"}}
  
  </msg>
-<msg timestamp="20210623 23:32:25.534" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" endtime="20210623 23:32:25.534" starttime="20210623 23:32:25.371"/>
+<msg timestamp="20210628 14:28:41.750" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:41.672" endtime="20210628 14:28:41.750"/>
 </kw>
-<kw name="To Json" library="RequestsLibrary">
-<var>${jsondata}</var>
-<arg>${resp.content}</arg>
-<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
-<msg timestamp="20210623 23:32:25.535" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
-<msg timestamp="20210623 23:32:25.538" level="INFO">To JSON using : content={"success":true,"code":200,"message":"Success Login","data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJwYXJ0bmVyX2NvZGUiOiIiLCJwYXJ0bmVyX25hbWUiOiIiLCJjbGllbnRfaWQiOjM1OSwiY2xpZW50X25hbWUiOiJDdXN0b21lciBBcHBzIiwiY2xpZW50X2NvZGUiOiJDQVAiLCJ1c2VybmFtZSI6ImNhIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX2NsaWVudCJ9.N_dzkOnp7AnwDQbKeoGNDvsmFg-mOnCRNeeigHADkt3JwtUBveWQFF1f9SllL6fAM1h041lwnzMKp3t22qkvQQ6q5oFQLgUAE0NGOL-YPqzfUaxIxQk_gm6F7EvKvhSbEEgWokMqFoidXE1YDkDFZWaz5EUtdeq4B5rHaTQPhG8K6P7yCkoSWCVn9k9cix8aYuAg4bOLm9jNnJyaMUAnieviPbpS0g7RC9-SLrDYWK56H29a_uFKov5dIOes0ecL6W5zKIx8VVAuDDg-yu89HtnhjruVAUOh5LJqsYTVoDDx1-61EeOsFz6SL6Va8g24CAN89o7WTfu0kF-J9fNN6A","type":"Bearer","expired_at":"2021-06-28T23:32:25+07:00"}}
- </msg>
-<msg timestamp="20210623 23:32:25.538" level="INFO">To JSON using : pretty_print=False </msg>
-<msg timestamp="20210623 23:32:25.538" level="INFO">${jsondata} = {u'message': u'Success Login', u'code': 200, u'data': {u'token': u'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIs...</msg>
-<status status="PASS" endtime="20210623 23:32:25.538" starttime="20210623 23:32:25.535"/>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:41.752" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success Login', 'data': {'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hb...</msg>
+<status status="PASS" starttime="20210628 14:28:41.750" endtime="20210628 14:28:41.752"/>
 </kw>
-<kw name="Should Be Equal As Strings" library="BuiltIn">
-<arg>${resp.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<msg timestamp="20210623 23:32:25.541" level="INFO">Argument types are:
-&lt;type 'int'&gt;
-&lt;type 'unicode'&gt;</msg>
-<status status="PASS" endtime="20210623 23:32:25.541" starttime="20210623 23:32:25.539"/>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:41.752" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success Login', 'data': {'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hb...</msg>
+<status status="PASS" starttime="20210628 14:28:41.752" endtime="20210628 14:28:41.752"/>
 </kw>
-<kw name="Should Be Equal As Strings" library="BuiltIn">
-<arg>${jsondata['data']['type']}</arg>
-<arg>Bearer</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" endtime="20210623 23:32:25.544" starttime="20210623 23:32:25.542"/>
-</kw>
-<kw name="Should Not Be Equal As Strings" library="BuiltIn">
-<arg>${jsondata['data']['token']}</arg>
-<arg>""</arg>
-<doc>Fails if objects are equal after converting them to strings.</doc>
-<status status="PASS" endtime="20210623 23:32:25.547" starttime="20210623 23:32:25.545"/>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:41.754" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success Login', 'data': {'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hb...</msg>
+<status status="PASS" starttime="20210628 14:28:41.753" endtime="20210628 14:28:41.754"/>
 </kw>
 <kw name="Set Variable" library="BuiltIn">
-<var>${bearerToken}</var>
+<var>${Tokenfposbgr1}</var>
 <arg>${jsondata['data']['token']}</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20210623 23:32:25.549" level="INFO">${bearerToken} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJ...</msg>
-<status status="PASS" endtime="20210623 23:32:25.549" starttime="20210623 23:32:25.547"/>
+<msg timestamp="20210628 14:28:41.757" level="INFO">${Tokenfposbgr1} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5...</msg>
+<status status="PASS" starttime="20210628 14:28:41.755" endtime="20210628 14:28:41.757"/>
 </kw>
 <kw name="Set Global Variable" library="BuiltIn">
-<arg>${bearerToken}</arg>
+<arg>${Tokenfposbgr1}</arg>
 <doc>Makes a variable available globally in all tests and suites.</doc>
-<msg timestamp="20210623 23:32:25.550" level="INFO">${bearerToken} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJ...</msg>
-<status status="PASS" endtime="20210623 23:32:25.550" starttime="20210623 23:32:25.549"/>
+<msg timestamp="20210628 14:28:41.758" level="INFO">${Tokenfposbgr1} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5...</msg>
+<status status="PASS" starttime="20210628 14:28:41.757" endtime="20210628 14:28:41.759"/>
 </kw>
-<tag>Success Login</tag>
-<status status="PASS" endtime="20210623 23:32:25.551" starttime="20210623 23:32:25.365"/>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/auth/fconbgr.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:41.760" level="INFO">${json} = {'email': 'fconbgr', 'password': '123456'}</msg>
+<status status="PASS" starttime="20210628 14:28:41.759" endtime="20210628 14:28:41.760"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:41.761" level="INFO">${JSON_SCHEMA} = {'email': 'fconbgr', 'password': '123456'}</msg>
+<status status="PASS" starttime="20210628 14:28:41.760" endtime="20210628 14:28:41.761"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/horde/v1/auth/login</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:41.828" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+ path_url=/horde/v1/auth/login 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '42', 'Content-Type': 'application/json'} 
+ body=b'{"email": "fconbgr", "password": "123456"}' 
+ </msg>
+<msg timestamp="20210628 14:28:41.828" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/auth/login 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '931', 'X-Request-Id': 'nLsUiqXahvDdnnDYKk5nAQwRWBeveMS0', 'Date': 'Mon, 28 Jun 2021 07:28:41 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '5', 'X-Kong-Proxy-Latency': '1', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success Login","data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg","type":"Bearer","expired_at":"2021-07-03T14:28:41+07:00"}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:41.829" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:41.762" endtime="20210628 14:28:41.829"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:41.831" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success Login', 'data': {'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hb...</msg>
+<status status="PASS" starttime="20210628 14:28:41.829" endtime="20210628 14:28:41.831"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:41.833" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success Login', 'data': {'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hb...</msg>
+<status status="PASS" starttime="20210628 14:28:41.832" endtime="20210628 14:28:41.833"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:41.834" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success Login', 'data': {'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hb...</msg>
+<status status="PASS" starttime="20210628 14:28:41.833" endtime="20210628 14:28:41.834"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${Tokenfconbgr}</var>
+<arg>${jsondata['data']['token']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:41.835" level="INFO">${Tokenfconbgr} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGF...</msg>
+<status status="PASS" starttime="20210628 14:28:41.834" endtime="20210628 14:28:41.836"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${Tokenfconbgr}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:41.836" level="INFO">${Tokenfconbgr} = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGF...</msg>
+<status status="PASS" starttime="20210628 14:28:41.836" endtime="20210628 14:28:41.837"/>
+</kw>
+<doc>Token Generator</doc>
+<status status="PASS" starttime="20210628 14:28:41.669" endtime="20210628 14:28:41.837"/>
 </test>
-<test id="s1-t3" name="GetProfile">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>httpGetProfile</arg>
-<arg>${base_url}</arg>
-<arg>verify=true</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20210623 23:32:25.552" level="INFO">Creating Session using : alias=httpGetProfile, url=https://api.stg-genesis.lionparcel.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
-<status status="PASS" endtime="20210623 23:32:25.553" starttime="20210623 23:32:25.552"/>
+<test id="s1-t2" name="Preparation 2 create_booking_manual_1_pcs">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_booking_manual_1_pcs.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:41.840" level="INFO">${json} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:41.839" endtime="20210628 14:28:41.840"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:41.842" level="INFO">${JSON_SCHEMA} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:41.840" endtime="20210628 14:28:41.842"/>
 </kw>
 <kw name="Create Dictionary" library="BuiltIn">
 <var>${header}</var>
-<arg>Authorization=Bearer ${bearerToken}</arg>
+<arg>Authorization=Bearer ${Tokenfposbgr1}</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20210623 23:32:25.554" level="INFO">${header} = {u'Authorization': u'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGU...</msg>
-<status status="PASS" endtime="20210623 23:32:25.554" starttime="20210623 23:32:25.553"/>
+<msg timestamp="20210628 14:28:41.843" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lc...</msg>
+<status status="PASS" starttime="20210628 14:28:41.842" endtime="20210628 14:28:41.843"/>
 </kw>
-<kw name="Get Request" library="RequestsLibrary">
+<kw name="POST" library="RequestsLibrary">
 <var>${resp}</var>
-<arg>httpGetProfile</arg>
-<arg>/horde/v1/account/profile</arg>
+<arg>${base_url}/hydra/v1/stt/manual</arg>
+<arg>json=${JSON_SCHEMA}</arg>
 <arg>headers=${header}</arg>
-<doc>*DEPRECATED* Please use `GET On Session` instead.</doc>
-<msg timestamp="20210623 23:32:25.555" level="WARN">Keyword 'RequestsLibrary.Get Request' is deprecated. Please use `GET On Session` instead.</msg>
-<msg timestamp="20210623 23:32:25.745" level="INFO">GET Request : url=https://api.stg-genesis.lionparcel.com/horde/v1/account/profile 
- path_url=/horde/v1/account/profile 
- headers={'Authorization': u'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ4OTc5NDUsImlhdCI6MTYyNDQ2NTk0NSwiYWNjb3VudF9pZCI6MTk4LCJhY2NvdW50X25hbWUiOiJjYSIsInR5cGUiOiJjbGllbnQiLCJwYXJ0bmVyX3R5cGUiOiIiLCJwYXJ0bmVyX2lkIjowLCJwYXJ0bmVyX2NvZGUiOiIiLCJwYXJ0bmVyX25hbWUiOiIiLCJjbGllbnRfaWQiOjM1OSwiY2xpZW50X25hbWUiOiJDdXN0b21lciBBcHBzIiwiY2xpZW50X2NvZGUiOiJDQVAiLCJ1c2VybmFtZSI6ImNhIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX2NsaWVudCJ9.N_dzkOnp7AnwDQbKeoGNDvsmFg-mOnCRNeeigHADkt3JwtUBveWQFF1f9SllL6fAM1h041lwnzMKp3t22qkvQQ6q5oFQLgUAE0NGOL-YPqzfUaxIxQk_gm6F7EvKvhSbEEgWokMqFoidXE1YDkDFZWaz5EUtdeq4B5rHaTQPhG8K6P7yCkoSWCVn9k9cix8aYuAg4bOLm9jNnJyaMUAnieviPbpS0g7RC9-SLrDYWK56H29a_uFKov5dIOes0ecL6W5zKIx8VVAuDDg-yu89HtnhjruVAUOh5LJqsYTVoDDx1-61EeOsFz6SL6Va8g24CAN89o7WTfu0kF-J9fNN6A', 'Connection': 'keep-alive', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0'} 
- body=None 
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:42.423" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ path_url=/hydra/v1/stt/manual 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5lcl9pZCI6MTgsInBhcnRuZXJfY29kZSI6IlBPU0JHUjEiLCJwYXJ0bmVyX25hbWUiOiJQb3MgUGFub3JhbWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZwb3NiZ3IxIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX3BvcyJ9.XNskuGnm88-Th_ltd2YyoyjdbIER1akMLoiON3Frzsz50JsarjBKKfBr1E8Wq5jL5tRz8UZEgSujCnay3O3DvFghZSC9O8fEJSseV_I-gyArisXVckC4yHujPvorLnxNqCVdTaPgEev0CWiSleKRsLQcFEc4tJk4SqlgwX9CI9_Q8jnF68x98gd91sD0aFco-ires8qLnAFu6lczGrTpBaIPLq7iksrvAEtogqC2ylG8EGwLfw_s91LtRvXw63suoRbZrBWKrpylF45it2er7QRDEWFjdUdovbU0ON4G8mF0tb6IaFXdU2gdkjqv-bMQQ_A8pwvyXczfljcs5rfeoA', 'Content-Length': '1037', 'Content-Type': 'application/json'} 
+ body=b'{"stt": {"stt_no": "", "is_mixpack": false, "stt_shipment_id": "", "stt_no_ref_external": "", "stt_tax_number": "09.314.652.0-987.319", "stt_goods_estimate_price": 50000, "stt_goods_status": "ecommerce", "stt_origin_city_id": "BGR", "stt_origin_district_id": "DIST33301", "stt_destination_city_id": "SKB", "stt_destination_district_id": "DIST234", "stt_sender_name": "RoboSender", "stt_sender_phone": "080000000001", "stt_sender_address": "Jl. Python 1 koli", "stt_is_save_sender": false, "stt_recipient_name": "RoboReceiver", "stt_recipient_address": "Jl. PIP 3", "stt_recipient_phone": "080000000002", "stt_is_save_recipient": false, "stt_insurance_type": "free", "stt_product_type": "regpack", "stt_gross_weight": 1, "stt_volume_weight": 1, "stt_chargeable_weight": 1, "stt_commodity_code": "LDP", "stt_client_stt_id": 0, "stt_vendor_stt_id": 0, "stt_is_cod": false, "stt_is_do": false, "stt_is_woodpacking": false, "stt_pieces": [{"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}]}}' 
  </msg>
-<msg timestamp="20210623 23:32:25.745" level="INFO">GET Response : url=https://api.stg-genesis.lionparcel.com/horde/v1/account/profile 
- status=200, reason=OK 
- headers={'X-Request-Id': 'phNFkd0aemL38siTA8FosI9pP62Jz7oj', 'Via': 'kong/2.1.4, 1.1 google', 'Transfer-Encoding': 'chunked', 'vary': 'Origin', 'X-Kong-Proxy-Latency': '1', 'Date': 'Wed, 23 Jun 2021 16:32:25 GMT', 'Access-Control-Allow-Origin': '*', 'Alt-Svc': 'clear', 'Content-Type': 'application/json; charset=UTF-8', 'X-Kong-Upstream-Latency': '5'} 
- body={"success":true,"code":200,"message":"Success","data":{"account_id":198,"username":"ca","name":"ca","role_type":"admin_client","role_permission":[{"permission_id":2,"parent_id":0,"name":"user_management_enable"},{"permission_id":3,"parent_id":2,"name":"user_management_account_create"},{"permission_id":4,"parent_id":2,"name":"user_management_account_detail_view"},{"permission_id":5,"parent_id":2,"name":"user_management_account_list_view"},{"permission_id":6,"parent_id":2,"name":"user_management_account_detail_edit"},{"permission_id":32,"parent_id":0,"name":"invoice_enable"},{"permission_id":34,"parent_id":32,"name":"invoice_list_view"},{"permission_id":35,"parent_id":32,"name":"invoice_detail_view"},{"permission_id":111,"parent_id":0,"name":"shipment_tracking_stt_enable"},{"permission_id":112,"parent_id":111,"name":"shipment_tracking_stt_detail_view"},{"permission_id":123,"parent_id":0,"name":"shipment_ecargo_tracking_enable"},{"permission_id":124,"parent_id":123,"name":"shipment_ecargo_tracking_detail_view"},{"permission_id":134,"parent_id":130,"name":"shipment_bagging_list_enable"},{"permission_id":150,"parent_id":0,"name":"shipment_stt_manual_enable"},{"permission_id":151,"parent_id":150,"name":"shipment_stt_manual_list"},{"permission_id":152,"parent_id":150,"name":"shipment_stt_manual_create"},{"permission_id":153,"parent_id":150,"name":"shipment_stt_manual_download"},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":164,"parent_id":0,"name":"shipment_stt_manual_add"},{"permission_id":171,"parent_id":176,"name":"create_booking_manual_create"},{"permission_id":176,"parent_id":0,"name":"booking_feature_enable"},{"permission_id":174,"parent_id":176,"name":"booking_list_view"},{"permission_id":175,"parent_id":176,"name":"booking_detail_view"},{"permission_id":191,"parent_id":0,"name":"check_tariff_enable"},{"permission_id":192,"parent_id":191,"name":"check_tariff_list_view"},{"permission_id":195,"parent_id":191,"name":"check_tariff_client_filter_view"},{"permission_id":193,"parent_id":191,"name":"check_tariff_detail_view"},{"permission_id":194,"parent_id":191,"name":"check_tariff_button_booking_view"},{"permission_id":18,"parent_id":17,"name":"bulk_upload_create"},{"permission_id":250,"parent_id":17,"name":"bulk_upload_detail_view"},{"permission_id":17,"parent_id":0,"name":"bulk_upload_enable"},{"permission_id":19,"parent_id":17,"name":"bulk_upload_list_view"},{"permission_id":252,"parent_id":17,"name":"bulk_upload_type_account"},{"permission_id":251,"parent_id":17,"name":"bulk_upload_type_role"},{"permission_id":265,"parent_id":176,"name":"shipment_create_booking_type_manual"},{"permission_id":295,"parent_id":176,"name":"booking_edit"},{"permission_id":294,"parent_id":176,"name":"booking_view_detail"},{"permission_id":293,"parent_id":176,"name":"booking_view_list"},{"permission_id":296,"parent_id":176,"name":"booking_create_manual"},{"permission_id":302,"parent_id":299,"name":"bulk_booking_create"},{"permission_id":301,"parent_id":299,"name":"bulk_booking_detail_view"},{"permission_id":299,"parent_id":0,"name":"bulk_booking_enable"},{"permission_id":300,"parent_id":299,"name":"bulk_booking_list_view"},{"permission_id":312,"parent_id":308,"name":"saldo_beneficiary_account_add_detail"},{"permission_id":313,"parent_id":308,"name":"saldo_beneficiary_account_edit_detail"},{"permission_id":311,"parent_id":308,"name":"saldo_beneficiary_account_view_detail"},{"permission_id":308,"parent_id":0,"name":"saldo_enable"},{"permission_id":310,"parent_id":308,"name":"saldo_withdraw_request_detail"},{"permission_id":309,"parent_id":308,"name":"saldo_withdraw_view_detail"},{"permission_id":320,"parent_id":314,"name":"cod_beneficiary_account_add_detail"},{"permission_id":321,"parent_id":314,"name":"cod_beneficiary_account_edit_detail"},{"permission_id":319,"parent_id":314,"name":"cod_beneficiary_account_view_detail"},{"permission_id":314,"parent_id":0,"name":"cod_enable"},{"permission_id":316,"parent_id":314,"name":"cod_view_amount_bar"},{"permission_id":315,"parent_id":314,"name":"cod_view_list"},{"permission_id":318,"parent_id":314,"name":"cod_withdraw_request_detail"},{"permission_id":317,"parent_id":314,"name":"cod_withdraw_view_detail"},{"permission_id":322,"parent_id":0,"name":"cargo_tracking_enable"},{"permission_id":323,"parent_id":0,"name":"stt_tracking_enable"},{"permission_id":236,"parent_id":0,"name":"pickup_manifest_enable"},{"permission_id":237,"parent_id":236,"name":"pickup_manifest_list_view"},{"permission_id":238,"parent_id":236,"name":"pickup_manifest_create"}],"account_type":"client","account_type_detail":{"id":359,"code":"CAP","company_name":"Customer Apps","phone":"628561202012","email":"customer_apps@gmail.com","tax_number":"09.314.652.0-987.319","status":"approved","address":"jakarta","balance":0,"status_updated_at":"2021-04-27T15:00:27+07:00","status_updated_by":12,"status_updated_reason":"-","district_code":"DIST63710","is_do":true,"is_mixpack":false,"created_at":"2021-04-20T13:45:12+07:00","updated_at":"2021-05-03T20:07:37+07:00","created_by":170,"updated_by":12,"client_category":"B2B","client_bank_name":"BCA","client_bank_account_name":"Lion Parcel","client_bank_account_number":"123456789","client_bank_account_email":"lp@lp.com","client_is_cod":false,"client_contact_name":"Jamal","client_contact_job_title":"CEO","client_contact_email":"jamalbhgiacelalu@gmail.com","client_contact_phone":"6285612021711","client_partner_pos_id":0,"client_partner_pos_commission":0,"client_partner_pos_quantifier_commission":"","client_is_banned":false,"client_banned_reason":"","client_code_elexys":"","client_parent_id":0,"Type":""},"account_location":{"district_id":0,"district_code":"","district_name":"","city_id":0,"city_code":"","city_name":"","city_free_trade_zone":"","default_location":false},"account_location_list":null,"email":"ca@thelionparcel.com","phone_number":"628900000011","limit_rule_min_balance":100000,"limit_rule_limit_border":10000}}
+<msg timestamp="20210628 14:28:42.423" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '142', 'X-Request-Id': 'B64Kvjlv1MfVVHrl93ZEIrekWvew8TpO', 'Date': 'Mon, 28 Jun 2021 07:28:42 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '480', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":201,"message":"STT Manual Booking successfully created","data":{"stt":[{"stt_no":"11LP1624865322503","stt_id":4388}]}}
  
  </msg>
-<msg timestamp="20210623 23:32:25.746" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" endtime="20210623 23:32:25.746" starttime="20210623 23:32:25.554"/>
+<msg timestamp="20210628 14:28:42.424" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:41.843" endtime="20210628 14:28:42.424"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:42.426" level="INFO">${data} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865322503', 'stt_id': 4388}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:42.424" endtime="20210628 14:28:42.426"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:42.427" level="INFO">${value} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865322503', 'stt_id': 4388}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:42.426" endtime="20210628 14:28:42.428"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:42.431" level="INFO">${jsondata} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865322503', 'stt_id': 4388}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:42.428" endtime="20210628 14:28:42.432"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${stt_no1koli}</var>
+<arg>${jsondata['data']['stt'][0]['stt_no']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:42.434" level="INFO">${stt_no1koli} = 11LP1624865322503</msg>
+<status status="PASS" starttime="20210628 14:28:42.432" endtime="20210628 14:28:42.434"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${stt_no1koli}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:42.435" level="INFO">${stt_no1koli} = 11LP1624865322503</msg>
+<status status="PASS" starttime="20210628 14:28:42.434" endtime="20210628 14:28:42.435"/>
+</kw>
+<doc>Booking 1 stt yang 1 koli for cargo</doc>
+<status status="PASS" starttime="20210628 14:28:41.838" endtime="20210628 14:28:42.435"/>
+</test>
+<test id="s1-t3" name="Preparation 3 create_cargo_1_stt">
+<kw name="Catenate" library="BuiltIn">
+<var>${cargo_no}</var>
+<arg>SEPARATOR=</arg>
+<arg>Car</arg>
+<arg>${stt_no1koli}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20210628 14:28:42.437" level="INFO">${cargo_no} = Car11LP1624865322503</msg>
+<status status="PASS" starttime="20210628 14:28:42.437" endtime="20210628 14:28:42.438"/>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_cargo_1_stt.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:42.439" level="INFO">${json} = {'is_cargo_plane_manual': True, 'origin_airport_code': '', 'destination_airport_code': '', 'est_total_cargo_grossweigth': 1, 'est_total_cargo_volumeweight': 1, 'cargo_no': 'car22jun21d', 'cargo_vehicl...</msg>
+<status status="PASS" starttime="20210628 14:28:42.438" endtime="20210628 14:28:42.439"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>cargo_no</arg>
+<arg>${cargo_no}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:42.483" level="INFO">${bodyrequest} = {'is_cargo_plane_manual': True, 'origin_airport_code': '', 'destination_airport_code': '', 'est_total_cargo_grossweigth': 1, 'est_total_cargo_volumeweight': 1, 'cargo_no': 'Car11LP1624865322503', 'car...</msg>
+<status status="PASS" starttime="20210628 14:28:42.439" endtime="20210628 14:28:42.483"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>departure_date</arg>
+<arg>2021-06-28 08:00:01</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:42.516" level="INFO">${bodyrequest} = {'is_cargo_plane_manual': True, 'origin_airport_code': '', 'destination_airport_code': '', 'est_total_cargo_grossweigth': 1, 'est_total_cargo_volumeweight': 1, 'cargo_no': 'Car11LP1624865322503', 'car...</msg>
+<status status="PASS" starttime="20210628 14:28:42.484" endtime="20210628 14:28:42.516"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>arrival_date</arg>
+<arg>2021-06-28 10:00:01</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:42.546" level="INFO">${bodyrequest} = {'is_cargo_plane_manual': True, 'origin_airport_code': '', 'destination_airport_code': '', 'est_total_cargo_grossweigth': 1, 'est_total_cargo_volumeweight': 1, 'cargo_no': 'Car11LP1624865322503', 'car...</msg>
+<status status="PASS" starttime="20210628 14:28:42.516" endtime="20210628 14:28:42.546"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].stt_no</arg>
+<arg>${stt_no1koli}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:42.566" level="INFO">${bodyrequest} = {'is_cargo_plane_manual': True, 'origin_airport_code': '', 'destination_airport_code': '', 'est_total_cargo_grossweigth': 1, 'est_total_cargo_volumeweight': 1, 'cargo_no': 'Car11LP1624865322503', 'car...</msg>
+<status status="PASS" starttime="20210628 14:28:42.547" endtime="20210628 14:28:42.566"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${bodyrequest}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:42.568" level="INFO">${JSON_SCHEMA} = {'is_cargo_plane_manual': True, 'origin_airport_code': '', 'destination_airport_code': '', 'est_total_cargo_grossweigth': 1, 'est_total_cargo_volumeweight': 1, 'cargo_no': 'Car11LP1624865322503', 'car...</msg>
+<status status="PASS" starttime="20210628 14:28:42.567" endtime="20210628 14:28:42.568"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:42.568" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:42.568" endtime="20210628 14:28:42.568"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:42.937" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ path_url=/hydra/v1/cargo 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg', 'Content-Length': '615', 'Content-Type': 'application/json'} 
+ body=b'{"is_cargo_plane_manual": true, "origin_airport_code": "", "destination_airport_code": "", "est_total_cargo_grossweigth": 1, "est_total_cargo_volumeweight": 1, "cargo_no": "Car11LP1624865322503", "cargo_vehicle_no": "R 1234 F", "actual_total_cargo_grossweigth": 1, "actual_total_cargo_volumeweight": 1, "route": "", "total_stt": 2, "total_piece": 2, "cargo_commodity": "XXXX", "product_cargo": "REGULAR", "cargo_type": "truck", "origin_city_code": "BGR", "destination_city_code": "SKB", "departure_date": "2021-06-28 08:00:01", "arrival_date": "2021-06-28 10:00:01", "bag_or_stt": [{"stt_no": "11LP1624865322503"}]}' 
+ </msg>
+<msg timestamp="20210628 14:28:42.937" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '155', 'X-Request-Id': 'Ee6NAhOUDql8Tw189SCfFosjQc6atGpR', 'Date': 'Mon, 28 Jun 2021 07:28:42 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '219', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success","data":{"cargo_no":"Car11LP1624865322503","total_stt_success":1,"total_stt_failed":0,"list_stt_failed":[]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:42.938" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:42.568" endtime="20210628 14:28:42.938"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:42.941" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 1, 'total_stt_failed': 0, 'list_stt_failed': []}}</msg>
+<status status="PASS" starttime="20210628 14:28:42.938" endtime="20210628 14:28:42.941"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:42.942" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 1, 'total_stt_failed': 0, 'list_stt_failed': []}}</msg>
+<status status="PASS" starttime="20210628 14:28:42.941" endtime="20210628 14:28:42.942"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:42.944" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 1, 'total_stt_failed': 0, 'list_stt_failed': []}}</msg>
+<status status="PASS" starttime="20210628 14:28:42.942" endtime="20210628 14:28:42.945"/>
 </kw>
 <kw name="Should Be Equal As Strings" library="BuiltIn">
 <arg>${resp.status_code}</arg>
 <arg>200</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<msg timestamp="20210623 23:32:25.748" level="INFO">Argument types are:
-&lt;type 'int'&gt;
+<msg timestamp="20210628 14:28:42.946" level="INFO">Argument types are:
+&lt;class 'int'&gt;
 &lt;type 'unicode'&gt;</msg>
-<status status="PASS" endtime="20210623 23:32:25.748" starttime="20210623 23:32:25.746"/>
+<status status="PASS" starttime="20210628 14:28:42.945" endtime="20210628 14:28:42.946"/>
 </kw>
-<kw name="To Json" library="RequestsLibrary">
-<var>${jsondata}</var>
-<arg>${resp.content}</arg>
-<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
-<msg timestamp="20210623 23:32:25.748" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
-<msg timestamp="20210623 23:32:25.750" level="INFO">To JSON using : content={"success":true,"code":200,"message":"Success","data":{"account_id":198,"username":"ca","name":"ca","role_type":"admin_client","role_permission":[{"permission_id":2,"parent_id":0,"name":"user_management_enable"},{"permission_id":3,"parent_id":2,"name":"user_management_account_create"},{"permission_id":4,"parent_id":2,"name":"user_management_account_detail_view"},{"permission_id":5,"parent_id":2,"name":"user_management_account_list_view"},{"permission_id":6,"parent_id":2,"name":"user_management_account_detail_edit"},{"permission_id":32,"parent_id":0,"name":"invoice_enable"},{"permission_id":34,"parent_id":32,"name":"invoice_list_view"},{"permission_id":35,"parent_id":32,"name":"invoice_detail_view"},{"permission_id":111,"parent_id":0,"name":"shipment_tracking_stt_enable"},{"permission_id":112,"parent_id":111,"name":"shipment_tracking_stt_detail_view"},{"permission_id":123,"parent_id":0,"name":"shipment_ecargo_tracking_enable"},{"permission_id":124,"parent_id":123,"name":"shipment_ecargo_tracking_detail_view"},{"permission_id":134,"parent_id":130,"name":"shipment_bagging_list_enable"},{"permission_id":150,"parent_id":0,"name":"shipment_stt_manual_enable"},{"permission_id":151,"parent_id":150,"name":"shipment_stt_manual_list"},{"permission_id":152,"parent_id":150,"name":"shipment_stt_manual_create"},{"permission_id":153,"parent_id":150,"name":"shipment_stt_manual_download"},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":0,"parent_id":0,"name":""},{"permission_id":164,"parent_id":0,"name":"shipment_stt_manual_add"},{"permission_id":171,"parent_id":176,"name":"create_booking_manual_create"},{"permission_id":176,"parent_id":0,"name":"booking_feature_enable"},{"permission_id":174,"parent_id":176,"name":"booking_list_view"},{"permission_id":175,"parent_id":176,"name":"booking_detail_view"},{"permission_id":191,"parent_id":0,"name":"check_tariff_enable"},{"permission_id":192,"parent_id":191,"name":"check_tariff_list_view"},{"permission_id":195,"parent_id":191,"name":"check_tariff_client_filter_view"},{"permission_id":193,"parent_id":191,"name":"check_tariff_detail_view"},{"permission_id":194,"parent_id":191,"name":"check_tariff_button_booking_view"},{"permission_id":18,"parent_id":17,"name":"bulk_upload_create"},{"permission_id":250,"parent_id":17,"name":"bulk_upload_detail_view"},{"permission_id":17,"parent_id":0,"name":"bulk_upload_enable"},{"permission_id":19,"parent_id":17,"name":"bulk_upload_list_view"},{"permission_id":252,"parent_id":17,"name":"bulk_upload_type_account"},{"permission_id":251,"parent_id":17,"name":"bulk_upload_type_role"},{"permission_id":265,"parent_id":176,"name":"shipment_create_booking_type_manual"},{"permission_id":295,"parent_id":176,"name":"booking_edit"},{"permission_id":294,"parent_id":176,"name":"booking_view_detail"},{"permission_id":293,"parent_id":176,"name":"booking_view_list"},{"permission_id":296,"parent_id":176,"name":"booking_create_manual"},{"permission_id":302,"parent_id":299,"name":"bulk_booking_create"},{"permission_id":301,"parent_id":299,"name":"bulk_booking_detail_view"},{"permission_id":299,"parent_id":0,"name":"bulk_booking_enable"},{"permission_id":300,"parent_id":299,"name":"bulk_booking_list_view"},{"permission_id":312,"parent_id":308,"name":"saldo_beneficiary_account_add_detail"},{"permission_id":313,"parent_id":308,"name":"saldo_beneficiary_account_edit_detail"},{"permission_id":311,"parent_id":308,"name":"saldo_beneficiary_account_view_detail"},{"permission_id":308,"parent_id":0,"name":"saldo_enable"},{"permission_id":310,"parent_id":308,"name":"saldo_withdraw_request_detail"},{"permission_id":309,"parent_id":308,"name":"saldo_withdraw_view_detail"},{"permission_id":320,"parent_id":314,"name":"cod_beneficiary_account_add_detail"},{"permission_id":321,"parent_id":314,"name":"cod_beneficiary_account_edit_detail"},{"permission_id":319,"parent_id":314,"name":"cod_beneficiary_account_view_detail"},{"permission_id":314,"parent_id":0,"name":"cod_enable"},{"permission_id":316,"parent_id":314,"name":"cod_view_amount_bar"},{"permission_id":315,"parent_id":314,"name":"cod_view_list"},{"permission_id":318,"parent_id":314,"name":"cod_withdraw_request_detail"},{"permission_id":317,"parent_id":314,"name":"cod_withdraw_view_detail"},{"permission_id":322,"parent_id":0,"name":"cargo_tracking_enable"},{"permission_id":323,"parent_id":0,"name":"stt_tracking_enable"},{"permission_id":236,"parent_id":0,"name":"pickup_manifest_enable"},{"permission_id":237,"parent_id":236,"name":"pickup_manifest_list_view"},{"permission_id":238,"parent_id":236,"name":"pickup_manifest_create"}],"account_type":"client","account_type_detail":{"id":359,"code":"CAP","company_name":"Customer Apps","phone":"628561202012","email":"customer_apps@gmail.com","tax_number":"09.314.652.0-987.319","status":"approved","address":"jakarta","balance":0,"status_updated_at":"2021-04-27T15:00:27+07:00","status_updated_by":12,"status_updated_reason":"-","district_code":"DIST63710","is_do":true,"is_mixpack":false,"created_at":"2021-04-20T13:45:12+07:00","updated_at":"2021-05-03T20:07:37+07:00","created_by":170,"updated_by":12,"client_category":"B2B","client_bank_name":"BCA","client_bank_account_name":"Lion Parcel","client_bank_account_number":"123456789","client_bank_account_email":"lp@lp.com","client_is_cod":false,"client_contact_name":"Jamal","client_contact_job_title":"CEO","client_contact_email":"jamalbhgiacelalu@gmail.com","client_contact_phone":"6285612021711","client_partner_pos_id":0,"client_partner_pos_commission":0,"client_partner_pos_quantifier_commission":"","client_is_banned":false,"client_banned_reason":"","client_code_elexys":"","client_parent_id":0,"Type":""},"account_location":{"district_id":0,"district_code":"","district_name":"","city_id":0,"city_code":"","city_name":"","city_free_trade_zone":"","default_location":false},"account_location_list":null,"email":"ca@thelionparcel.com","phone_number":"628900000011","limit_rule_min_balance":100000,"limit_rule_limit_border":10000}}
- </msg>
-<msg timestamp="20210623 23:32:25.750" level="INFO">To JSON using : pretty_print=False </msg>
-<msg timestamp="20210623 23:32:25.751" level="INFO">${jsondata} = {u'message': u'Success', u'code': 200, u'data': {u'username': u'ca', u'phone_number': u'628900000011', u'account_type': u'client', u'account_id': 198, u'limit_rule_limit_border': 10000, u'email': u'ca...</msg>
-<status status="PASS" endtime="20210623 23:32:25.751" starttime="20210623 23:32:25.748"/>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['total_stt_success']}</arg>
+<arg>"0"</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:42.948" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:42.947" endtime="20210628 14:28:42.948"/>
 </kw>
-<kw name="Should Be Equal As Strings" library="BuiltIn">
-<arg>${jsondata['data']['username']}</arg>
-<arg>${username}</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" endtime="20210623 23:32:25.753" starttime="20210623 23:32:25.751"/>
+<kw name="Set Variable" library="BuiltIn">
+<var>${cargo_no}</var>
+<arg>${jsondata['data']['cargo_no']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:42.949" level="INFO">${cargo_no} = Car11LP1624865322503</msg>
+<status status="PASS" starttime="20210628 14:28:42.948" endtime="20210628 14:28:42.949"/>
 </kw>
-<kw name="Get Length" library="BuiltIn">
-<var>${cnt}</var>
-<arg>${jsondata['data']['role_permission']}</arg>
-<doc>Returns and logs the length of the given item as an integer.</doc>
-<msg timestamp="20210623 23:32:25.755" level="INFO">Length is 64</msg>
-<msg timestamp="20210623 23:32:25.755" level="INFO">${cnt} = 64</msg>
-<status status="PASS" endtime="20210623 23:32:25.755" starttime="20210623 23:32:25.753"/>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${cargo_no}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:42.950" level="INFO">${cargo_no} = Car11LP1624865322503</msg>
+<status status="PASS" starttime="20210628 14:28:42.949" endtime="20210628 14:28:42.950"/>
 </kw>
-<kw name="Should Be True" library="BuiltIn">
-<arg>${cnt} &gt; 0</arg>
-<doc>Fails if the given condition is not true.</doc>
-<status status="PASS" endtime="20210623 23:32:25.756" starttime="20210623 23:32:25.755"/>
-</kw>
-<kw name="Should Be Equal As Strings" library="BuiltIn">
-<arg>${jsondata['data']['email']}</arg>
-<arg>${email}</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" endtime="20210623 23:32:25.757" starttime="20210623 23:32:25.756"/>
-</kw>
-<tag>Get Profile</tag>
-<status status="PASS" endtime="20210623 23:32:25.758" starttime="20210623 23:32:25.551"/>
+<doc>Create cargo</doc>
+<status status="PASS" starttime="20210628 14:28:42.435" endtime="20210628 14:28:42.950"/>
 </test>
-<status status="PASS" endtime="20210623 23:32:25.759" starttime="20210623 23:32:24.936"/>
+<test id="s1-t4" name="Detail Cargo total piece harusnya baru 1 pieces">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:42.954" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:42.953" endtime="20210628 14:28:42.954"/>
+</kw>
+<kw name="GET" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo/detail-cargo-stt</arg>
+<arg>params=cargo_no=${cargo_no}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20210628 14:28:43.125" level="INFO">GET Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ path_url=/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg'} 
+ body=None 
+ </msg>
+<msg timestamp="20210628 14:28:43.126" level="INFO">GET Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '1143', 'X-Request-Id': '7wmClnPUstIEr66lNuFU5Vhw01y5k0hy', 'Date': 'Mon, 28 Jun 2021 07:28:43 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '110', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success","data":{"origin_city":"BOGOR","destination_city":"SUKABUMI","cargo_number":"Car11LP1624865322503","vehicle_number":"R 1234 F","cargo_type":"truck","partner_name":"Console Bogor Raya","partner_type":"console","cargo_commodity":"BEVERAGE FROZEN","cargo_product":"REGULAR","estimation_departure_data":"2021-06-28T14:28:42+07:00","departure_date":"2021-06-28T08:00:01+07:00","arrival_date":"2021-06-28T10:00:01+07:00","total_stt":1,"total_piece":1,"total_gross_weight":1,"total_volume_weight":1,"total_actual_cargo_gross_weight":1,"total_actual_cargo_volume_weight":1,"total_est_cargo_gross_weight":1,"total_est_cargo_volume_weight":1,"created_name":"fconbgr","origin_airport_code":"","destination_airport_code":"","origin_airport_name":"","destination_airport_name":"","origin_city_code":"BGR","destination_city_code":"SKB","created_at":"2021-06-28T14:28:42+07:00","created_by":157,"updated_at":"2021-06-28T14:28:42+07:00","update_by":157,"detail_stt":[{"BagNumber":"","SttNumber":"11LP1624865322503","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:43.126" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:42.955" endtime="20210628 14:28:43.126"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:43.128" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:43.126" endtime="20210628 14:28:43.128"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:43.130" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:43.129" endtime="20210628 14:28:43.130"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:43.133" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:43.130" endtime="20210628 14:28:43.133"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:43.134" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:43.133" endtime="20210628 14:28:43.134"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${jsondata['data']['total_piece']}</arg>
+<arg>1</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20210628 14:28:43.136" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:43.135" endtime="20210628 14:28:43.136"/>
+</kw>
+<doc>total piece harusnya baru 1 pieces</doc>
+<status status="PASS" starttime="20210628 14:28:42.951" endtime="20210628 14:28:43.136"/>
+</test>
+<test id="s1-t5" name="Create Bag for add to cargo">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_booking_manual_1_pcs.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:43.139" level="INFO">${json} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.138" endtime="20210628 14:28:43.139"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:43.141" level="INFO">${JSON_SCHEMA} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.139" endtime="20210628 14:28:43.141"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfposbgr1}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:43.142" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.141" endtime="20210628 14:28:43.142"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/stt/manual</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:43.550" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ path_url=/hydra/v1/stt/manual 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5lcl9pZCI6MTgsInBhcnRuZXJfY29kZSI6IlBPU0JHUjEiLCJwYXJ0bmVyX25hbWUiOiJQb3MgUGFub3JhbWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZwb3NiZ3IxIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX3BvcyJ9.XNskuGnm88-Th_ltd2YyoyjdbIER1akMLoiON3Frzsz50JsarjBKKfBr1E8Wq5jL5tRz8UZEgSujCnay3O3DvFghZSC9O8fEJSseV_I-gyArisXVckC4yHujPvorLnxNqCVdTaPgEev0CWiSleKRsLQcFEc4tJk4SqlgwX9CI9_Q8jnF68x98gd91sD0aFco-ires8qLnAFu6lczGrTpBaIPLq7iksrvAEtogqC2ylG8EGwLfw_s91LtRvXw63suoRbZrBWKrpylF45it2er7QRDEWFjdUdovbU0ON4G8mF0tb6IaFXdU2gdkjqv-bMQQ_A8pwvyXczfljcs5rfeoA', 'Content-Length': '1037', 'Content-Type': 'application/json'} 
+ body=b'{"stt": {"stt_no": "", "is_mixpack": false, "stt_shipment_id": "", "stt_no_ref_external": "", "stt_tax_number": "09.314.652.0-987.319", "stt_goods_estimate_price": 50000, "stt_goods_status": "ecommerce", "stt_origin_city_id": "BGR", "stt_origin_district_id": "DIST33301", "stt_destination_city_id": "SKB", "stt_destination_district_id": "DIST234", "stt_sender_name": "RoboSender", "stt_sender_phone": "080000000001", "stt_sender_address": "Jl. Python 1 koli", "stt_is_save_sender": false, "stt_recipient_name": "RoboReceiver", "stt_recipient_address": "Jl. PIP 3", "stt_recipient_phone": "080000000002", "stt_is_save_recipient": false, "stt_insurance_type": "free", "stt_product_type": "regpack", "stt_gross_weight": 1, "stt_volume_weight": 1, "stt_chargeable_weight": 1, "stt_commodity_code": "LDP", "stt_client_stt_id": 0, "stt_vendor_stt_id": 0, "stt_is_cod": false, "stt_is_do": false, "stt_is_woodpacking": false, "stt_pieces": [{"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}]}}' 
+ </msg>
+<msg timestamp="20210628 14:28:43.550" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '142', 'X-Request-Id': 'TKhAkuczPHCIPB3JetQ5KoN1TboIbpwq', 'Date': 'Mon, 28 Jun 2021 07:28:43 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '273', 'X-Kong-Proxy-Latency': '1', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":201,"message":"STT Manual Booking successfully created","data":{"stt":[{"stt_no":"11LP1624865323594","stt_id":4389}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:43.551" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:43.142" endtime="20210628 14:28:43.551"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:43.553" level="INFO">${data} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865323594', 'stt_id': 4389}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:43.551" endtime="20210628 14:28:43.553"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:43.554" level="INFO">${value} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865323594', 'stt_id': 4389}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:43.553" endtime="20210628 14:28:43.555"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:43.557" level="INFO">${jsondata} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865323594', 'stt_id': 4389}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:43.555" endtime="20210628 14:28:43.557"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${stt_bag1}</var>
+<arg>${jsondata['data']['stt'][0]['stt_no']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:43.559" level="INFO">${stt_bag1} = 11LP1624865323594</msg>
+<status status="PASS" starttime="20210628 14:28:43.558" endtime="20210628 14:28:43.559"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${stt_bag1}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:43.560" level="INFO">${stt_bag1} = 11LP1624865323594</msg>
+<status status="PASS" starttime="20210628 14:28:43.559" endtime="20210628 14:28:43.560"/>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_booking_manual_1_pcs.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:43.561" level="INFO">${json} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.560" endtime="20210628 14:28:43.561"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:43.562" level="INFO">${JSON_SCHEMA} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.561" endtime="20210628 14:28:43.562"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfposbgr1}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:43.563" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.562" endtime="20210628 14:28:43.563"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/stt/manual</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:43.957" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ path_url=/hydra/v1/stt/manual 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5lcl9pZCI6MTgsInBhcnRuZXJfY29kZSI6IlBPU0JHUjEiLCJwYXJ0bmVyX25hbWUiOiJQb3MgUGFub3JhbWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZwb3NiZ3IxIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX3BvcyJ9.XNskuGnm88-Th_ltd2YyoyjdbIER1akMLoiON3Frzsz50JsarjBKKfBr1E8Wq5jL5tRz8UZEgSujCnay3O3DvFghZSC9O8fEJSseV_I-gyArisXVckC4yHujPvorLnxNqCVdTaPgEev0CWiSleKRsLQcFEc4tJk4SqlgwX9CI9_Q8jnF68x98gd91sD0aFco-ires8qLnAFu6lczGrTpBaIPLq7iksrvAEtogqC2ylG8EGwLfw_s91LtRvXw63suoRbZrBWKrpylF45it2er7QRDEWFjdUdovbU0ON4G8mF0tb6IaFXdU2gdkjqv-bMQQ_A8pwvyXczfljcs5rfeoA', 'Content-Length': '1037', 'Content-Type': 'application/json'} 
+ body=b'{"stt": {"stt_no": "", "is_mixpack": false, "stt_shipment_id": "", "stt_no_ref_external": "", "stt_tax_number": "09.314.652.0-987.319", "stt_goods_estimate_price": 50000, "stt_goods_status": "ecommerce", "stt_origin_city_id": "BGR", "stt_origin_district_id": "DIST33301", "stt_destination_city_id": "SKB", "stt_destination_district_id": "DIST234", "stt_sender_name": "RoboSender", "stt_sender_phone": "080000000001", "stt_sender_address": "Jl. Python 1 koli", "stt_is_save_sender": false, "stt_recipient_name": "RoboReceiver", "stt_recipient_address": "Jl. PIP 3", "stt_recipient_phone": "080000000002", "stt_is_save_recipient": false, "stt_insurance_type": "free", "stt_product_type": "regpack", "stt_gross_weight": 1, "stt_volume_weight": 1, "stt_chargeable_weight": 1, "stt_commodity_code": "LDP", "stt_client_stt_id": 0, "stt_vendor_stt_id": 0, "stt_is_cod": false, "stt_is_do": false, "stt_is_woodpacking": false, "stt_pieces": [{"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}]}}' 
+ </msg>
+<msg timestamp="20210628 14:28:43.958" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '142', 'X-Request-Id': 'RinO8p0rZLtKYLdg1147NZBl15PYsxVA', 'Date': 'Mon, 28 Jun 2021 07:28:44 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '269', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":201,"message":"STT Manual Booking successfully created","data":{"stt":[{"stt_no":"11LP1624865324012","stt_id":4390}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:43.958" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:43.563" endtime="20210628 14:28:43.958"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:43.961" level="INFO">${data} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865324012', 'stt_id': 4390}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:43.959" endtime="20210628 14:28:43.961"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:43.962" level="INFO">${value} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865324012', 'stt_id': 4390}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:43.961" endtime="20210628 14:28:43.962"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:43.963" level="INFO">${jsondata} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865324012', 'stt_id': 4390}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:43.962" endtime="20210628 14:28:43.963"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${stt_bag2}</var>
+<arg>${jsondata['data']['stt'][0]['stt_no']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:43.965" level="INFO">${stt_bag2} = 11LP1624865324012</msg>
+<status status="PASS" starttime="20210628 14:28:43.963" endtime="20210628 14:28:43.965"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${stt_bag2}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:43.966" level="INFO">${stt_bag2} = 11LP1624865324012</msg>
+<status status="PASS" starttime="20210628 14:28:43.965" endtime="20210628 14:28:43.966"/>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_booking_manual_1_pcs.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:43.967" level="INFO">${json} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.966" endtime="20210628 14:28:43.967"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:43.968" level="INFO">${JSON_SCHEMA} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.967" endtime="20210628 14:28:43.968"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfposbgr1}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:43.969" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lc...</msg>
+<status status="PASS" starttime="20210628 14:28:43.968" endtime="20210628 14:28:43.969"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/stt/manual</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:44.369" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ path_url=/hydra/v1/stt/manual 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5lcl9pZCI6MTgsInBhcnRuZXJfY29kZSI6IlBPU0JHUjEiLCJwYXJ0bmVyX25hbWUiOiJQb3MgUGFub3JhbWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZwb3NiZ3IxIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX3BvcyJ9.XNskuGnm88-Th_ltd2YyoyjdbIER1akMLoiON3Frzsz50JsarjBKKfBr1E8Wq5jL5tRz8UZEgSujCnay3O3DvFghZSC9O8fEJSseV_I-gyArisXVckC4yHujPvorLnxNqCVdTaPgEev0CWiSleKRsLQcFEc4tJk4SqlgwX9CI9_Q8jnF68x98gd91sD0aFco-ires8qLnAFu6lczGrTpBaIPLq7iksrvAEtogqC2ylG8EGwLfw_s91LtRvXw63suoRbZrBWKrpylF45it2er7QRDEWFjdUdovbU0ON4G8mF0tb6IaFXdU2gdkjqv-bMQQ_A8pwvyXczfljcs5rfeoA', 'Content-Length': '1037', 'Content-Type': 'application/json'} 
+ body=b'{"stt": {"stt_no": "", "is_mixpack": false, "stt_shipment_id": "", "stt_no_ref_external": "", "stt_tax_number": "09.314.652.0-987.319", "stt_goods_estimate_price": 50000, "stt_goods_status": "ecommerce", "stt_origin_city_id": "BGR", "stt_origin_district_id": "DIST33301", "stt_destination_city_id": "SKB", "stt_destination_district_id": "DIST234", "stt_sender_name": "RoboSender", "stt_sender_phone": "080000000001", "stt_sender_address": "Jl. Python 1 koli", "stt_is_save_sender": false, "stt_recipient_name": "RoboReceiver", "stt_recipient_address": "Jl. PIP 3", "stt_recipient_phone": "080000000002", "stt_is_save_recipient": false, "stt_insurance_type": "free", "stt_product_type": "regpack", "stt_gross_weight": 1, "stt_volume_weight": 1, "stt_chargeable_weight": 1, "stt_commodity_code": "LDP", "stt_client_stt_id": 0, "stt_vendor_stt_id": 0, "stt_is_cod": false, "stt_is_do": false, "stt_is_woodpacking": false, "stt_pieces": [{"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}]}}' 
+ </msg>
+<msg timestamp="20210628 14:28:44.369" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '142', 'X-Request-Id': 'TWU4ydyWeVjYMJVygp3gMWvnNHal2Uc9', 'Date': 'Mon, 28 Jun 2021 07:28:44 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '266', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":201,"message":"STT Manual Booking successfully created","data":{"stt":[{"stt_no":"11LP1624865324412","stt_id":4391}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:44.370" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:43.969" endtime="20210628 14:28:44.370"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:44.372" level="INFO">${data} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865324412', 'stt_id': 4391}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:44.370" endtime="20210628 14:28:44.372"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:44.373" level="INFO">${value} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865324412', 'stt_id': 4391}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:44.372" endtime="20210628 14:28:44.373"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:44.374" level="INFO">${jsondata} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865324412', 'stt_id': 4391}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:44.373" endtime="20210628 14:28:44.374"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${stt_bag3}</var>
+<arg>${jsondata['data']['stt'][0]['stt_no']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:44.376" level="INFO">${stt_bag3} = 11LP1624865324412</msg>
+<status status="PASS" starttime="20210628 14:28:44.375" endtime="20210628 14:28:44.376"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${stt_bag3}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:44.377" level="INFO">${stt_bag3} = 11LP1624865324412</msg>
+<status status="PASS" starttime="20210628 14:28:44.376" endtime="20210628 14:28:44.377"/>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_sti.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:44.378" level="INFO">${json} = {'stt_no': ['', '', '']}</msg>
+<status status="PASS" starttime="20210628 14:28:44.377" endtime="20210628 14:28:44.378"/>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<var>${list_stt}</var>
+<arg>${stt_bag1}</arg>
+<arg>${stt_bag2}</arg>
+<arg>${stt_bag3}</arg>
+<doc>Returns a list containing given items.</doc>
+<msg timestamp="20210628 14:28:44.379" level="INFO">${list_stt} = ['11LP1624865323594', '11LP1624865324012', '11LP1624865324412']</msg>
+<status status="PASS" starttime="20210628 14:28:44.378" endtime="20210628 14:28:44.379"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${list_stt}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:44.380" level="INFO">${list_stt} = ['11LP1624865323594', '11LP1624865324012', '11LP1624865324412']</msg>
+<status status="PASS" starttime="20210628 14:28:44.379" endtime="20210628 14:28:44.380"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>stt_no</arg>
+<arg>${list_stt}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:44.415" level="INFO">${bodyrequest} = {'stt_no': ['11LP1624865323594', '11LP1624865324012', '11LP1624865324412']}</msg>
+<status status="PASS" starttime="20210628 14:28:44.380" endtime="20210628 14:28:44.415"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${bodyrequest}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:44.415" level="INFO">${JSON_SCHEMA} = {'stt_no': ['11LP1624865323594', '11LP1624865324012', '11LP1624865324412']}</msg>
+<status status="PASS" starttime="20210628 14:28:44.415" endtime="20210628 14:28:44.416"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:44.416" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:44.416" endtime="20210628 14:28:44.416"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/sti/generate</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:44.536" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/sti/generate 
+ path_url=/hydra/v1/sti/generate 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg', 'Content-Length': '75', 'Content-Type': 'application/json'} 
+ body=b'{"stt_no": ["11LP1624865323594", "11LP1624865324012", "11LP1624865324412"]}' 
+ </msg>
+<msg timestamp="20210628 14:28:44.537" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/sti/generate 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '147', 'X-Request-Id': 'apgZQsHCPwFehXbklzAjnR46oZhuCqWy', 'Date': 'Mon, 28 Jun 2021 07:28:44 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '50', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":201,"message":"STI successfully generate","data":{"sti_id":868,"total_stt_success":3,"total_stt_failed":0,"stt_failed":[]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:44.537" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:44.417" endtime="20210628 14:28:44.537"/>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_bagging_3_stt.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:44.538" level="INFO">${json} = {'destination_city_code': 'SKB', 'custom_gross_weight': 3, 'custom_length': 10, 'custom_width': 20, 'custom_height': 70, 'bag_stt': ['', '', '']}</msg>
+<status status="PASS" starttime="20210628 14:28:44.537" endtime="20210628 14:28:44.538"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>bag_stt</arg>
+<arg>${list_stt}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:44.575" level="INFO">${bodyrequest} = {'destination_city_code': 'SKB', 'custom_gross_weight': 3, 'custom_length': 10, 'custom_width': 20, 'custom_height': 70, 'bag_stt': ['11LP1624865323594', '11LP1624865324012', '11LP1624865324412']}</msg>
+<status status="PASS" starttime="20210628 14:28:44.539" endtime="20210628 14:28:44.575"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${bodyrequest}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:44.577" level="INFO">${JSON_SCHEMA} = {'destination_city_code': 'SKB', 'custom_gross_weight': 3, 'custom_length': 10, 'custom_width': 20, 'custom_height': 70, 'bag_stt': ['11LP1624865323594', '11LP1624865324012', '11LP1624865324412']}</msg>
+<status status="PASS" starttime="20210628 14:28:44.576" endtime="20210628 14:28:44.577"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:44.578" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:44.577" endtime="20210628 14:28:44.578"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/bag</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:44.759" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/bag 
+ path_url=/hydra/v1/bag 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg', 'Content-Length': '196', 'Content-Type': 'application/json'} 
+ body=b'{"destination_city_code": "SKB", "custom_gross_weight": 3, "custom_length": 10, "custom_width": 20, "custom_height": 70, "bag_stt": ["11LP1624865323594", "11LP1624865324012", "11LP1624865324412"]}' 
+ </msg>
+<msg timestamp="20210628 14:28:44.759" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/bag 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '156', 'X-Request-Id': 'dafb7M3rBaZT5VudvBrPlSVnBzhFebs3', 'Date': 'Mon, 28 Jun 2021 07:28:44 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '121', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Bag","data":{"bag_id":429,"bag_code":"SKB-1624865324850","total_stt_success":3,"total_stt_failed":0,"stt_failed":[]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:44.760" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:44.578" endtime="20210628 14:28:44.760"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:44.762" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Bag', 'data': {'bag_id': 429, 'bag_code': 'SKB-1624865324850', 'total_stt_success': 3, 'total_stt_failed': 0, 'stt_failed': []}}</msg>
+<status status="PASS" starttime="20210628 14:28:44.760" endtime="20210628 14:28:44.762"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:44.763" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Bag', 'data': {'bag_id': 429, 'bag_code': 'SKB-1624865324850', 'total_stt_success': 3, 'total_stt_failed': 0, 'stt_failed': []}}</msg>
+<status status="PASS" starttime="20210628 14:28:44.762" endtime="20210628 14:28:44.763"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:44.764" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Bag', 'data': {'bag_id': 429, 'bag_code': 'SKB-1624865324850', 'total_stt_success': 3, 'total_stt_failed': 0, 'stt_failed': []}}</msg>
+<status status="PASS" starttime="20210628 14:28:44.763" endtime="20210628 14:28:44.765"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${jsondata}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20210628 14:28:44.765" endtime="20210628 14:28:44.765"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:44.767" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:44.766" endtime="20210628 14:28:44.768"/>
+</kw>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['bag_code']}</arg>
+<arg>""</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<status status="PASS" starttime="20210628 14:28:44.768" endtime="20210628 14:28:44.770"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['total_stt_success']}</arg>
+<arg>3</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:44.771" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:44.770" endtime="20210628 14:28:44.771"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${bag_code}</var>
+<arg>${jsondata['data']['bag_code']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:44.772" level="INFO">${bag_code} = SKB-1624865324850</msg>
+<status status="PASS" starttime="20210628 14:28:44.771" endtime="20210628 14:28:44.772"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${bag_code}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:44.773" level="INFO">${bag_code} = SKB-1624865324850</msg>
+<status status="PASS" starttime="20210628 14:28:44.773" endtime="20210628 14:28:44.773"/>
+</kw>
+<doc>create 3 stt, create sti, create bag</doc>
+<status status="PASS" starttime="20210628 14:28:43.137" endtime="20210628 14:28:44.773"/>
+</test>
+<test id="s1-t6" name="Create STT for add to cargo">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/create_booking_manual_14_pcs.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:44.776" level="INFO">${json} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:44.775" endtime="20210628 14:28:44.776"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${json}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:44.778" level="INFO">${JSON_SCHEMA} = {'stt': {'stt_no': '', 'is_mixpack': False, 'stt_shipment_id': '', 'stt_no_ref_external': '', 'stt_tax_number': '09.314.652.0-987.319', 'stt_goods_estimate_price': 50000, 'stt_goods_status': 'ecommerc...</msg>
+<status status="PASS" starttime="20210628 14:28:44.776" endtime="20210628 14:28:44.778"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfposbgr1}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:44.779" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lc...</msg>
+<status status="PASS" starttime="20210628 14:28:44.778" endtime="20210628 14:28:44.779"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/stt/manual</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20210628 14:28:45.186" level="INFO">POST Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ path_url=/hydra/v1/stt/manual 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTYyLCJhY2NvdW50X25hbWUiOiJmcG9zYmdyMSIsInR5cGUiOiJwYXJ0bmVyIiwicGFydG5lcl90eXBlIjoicG9zIiwicGFydG5lcl9pZCI6MTgsInBhcnRuZXJfY29kZSI6IlBPU0JHUjEiLCJwYXJ0bmVyX25hbWUiOiJQb3MgUGFub3JhbWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZwb3NiZ3IxIiwic3VwZXIiOmZhbHNlLCJhY2NvdW50X3JvbGVfbmFtZSI6ImFkbWluX3BvcyJ9.XNskuGnm88-Th_ltd2YyoyjdbIER1akMLoiON3Frzsz50JsarjBKKfBr1E8Wq5jL5tRz8UZEgSujCnay3O3DvFghZSC9O8fEJSseV_I-gyArisXVckC4yHujPvorLnxNqCVdTaPgEev0CWiSleKRsLQcFEc4tJk4SqlgwX9CI9_Q8jnF68x98gd91sD0aFco-ires8qLnAFu6lczGrTpBaIPLq7iksrvAEtogqC2ylG8EGwLfw_s91LtRvXw63suoRbZrBWKrpylF45it2er7QRDEWFjdUdovbU0ON4G8mF0tb6IaFXdU2gdkjqv-bMQQ_A8pwvyXczfljcs5rfeoA', 'Content-Length': '2364', 'Content-Type': 'application/json'} 
+ body=b'{"stt": {"stt_no": "", "is_mixpack": false, "stt_shipment_id": "", "stt_no_ref_external": "", "stt_tax_number": "09.314.652.0-987.319", "stt_goods_estimate_price": 50000, "stt_goods_status": "ecommerce", "stt_origin_city_id": "BGR", "stt_origin_district_id": "DIST33301", "stt_destination_city_id": "SKB", "stt_destination_district_id": "DIST234", "stt_sender_name": "RoboSender", "stt_sender_phone": "080000000001", "stt_sender_address": "Jl. Python 14 koli", "stt_is_save_sender": false, "stt_recipient_name": "RoboReceiver", "stt_recipient_address": "Jl. PIP 3", "stt_recipient_phone": "080000000002", "stt_is_save_recipient": false, "stt_insurance_type": "free", "stt_product_type": "regpack", "stt_gross_weight": 1, "stt_volume_weight": 1, "stt_chargeable_weight": 1, "stt_commodity_code": "LDP", "stt_client_stt_id": 0, "stt_vendor_stt_id": 0, "stt_is_cod": false, "stt_is_do": false, "stt_is_woodpacking": false, "stt_pieces": [{"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}, {"stt_piece_length": 10, "stt_piece_width": 20, "stt_piece_height": 30, "stt_piece_gross_weight": 1}]}}' 
+ </msg>
+<msg timestamp="20210628 14:28:45.187" level="INFO">POST Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/stt/manual 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '142', 'X-Request-Id': 'BfIaIhFuRxnIoGomVuaygU2betgt2dAq', 'Date': 'Mon, 28 Jun 2021 07:28:45 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '275', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":201,"message":"STT Manual Booking successfully created","data":{"stt":[{"stt_no":"11LP1624865325223","stt_id":4392}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:45.187" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:44.779" endtime="20210628 14:28:45.188"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:45.190" level="INFO">${data} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865325223', 'stt_id': 4392}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:45.188" endtime="20210628 14:28:45.190"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:45.191" level="INFO">${value} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865325223', 'stt_id': 4392}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:45.190" endtime="20210628 14:28:45.191"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:45.194" level="INFO">${jsondata} = {'success': True, 'code': 201, 'message': 'STT Manual Booking successfully created', 'data': {'stt': [{'stt_no': '11LP1624865325223', 'stt_id': 4392}]}}</msg>
+<status status="PASS" starttime="20210628 14:28:45.191" endtime="20210628 14:28:45.195"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${stt_no14koli}</var>
+<arg>${jsondata['data']['stt'][0]['stt_no']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20210628 14:28:45.197" level="INFO">${stt_no14koli} = 11LP1624865325223</msg>
+<status status="PASS" starttime="20210628 14:28:45.195" endtime="20210628 14:28:45.197"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${stt_no14koli}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20210628 14:28:45.197" level="INFO">${stt_no14koli} = 11LP1624865325223</msg>
+<status status="PASS" starttime="20210628 14:28:45.197" endtime="20210628 14:28:45.197"/>
+</kw>
+<doc>1 STT dengan 14 pieces = 14 pieces/koli</doc>
+<status status="PASS" starttime="20210628 14:28:44.774" endtime="20210628 14:28:45.198"/>
+</test>
+<test id="s1-t7" name="Edit Cargo Add Bag and STT">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/edit_cargo.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:45.200" level="INFO">${json} = {'cargo_no': '', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624593199727', 'stt_no': '11LP1624422140428', 'action': 'add'}, {'bag_no': 'SKB-162459...</msg>
+<status status="PASS" starttime="20210628 14:28:45.199" endtime="20210628 14:28:45.201"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>cargo_no</arg>
+<arg>${cargo_no}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.238" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624593199727', 'stt_no': '11LP1624422140428', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.201" endtime="20210628 14:28:45.239"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].bag_no</arg>
+<arg>${bag_code}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.273" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624422140428', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.239" endtime="20210628 14:28:45.273"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].stt_no</arg>
+<arg>${stt_bag1}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.295" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.273" endtime="20210628 14:28:45.295"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[1].bag_no</arg>
+<arg>${bag_code}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.315" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.295" endtime="20210628 14:28:45.315"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[1].stt_no</arg>
+<arg>${stt_bag2}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.336" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.315" endtime="20210628 14:28:45.337"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[2].bag_no</arg>
+<arg>${bag_code}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.356" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.337" endtime="20210628 14:28:45.357"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[2].stt_no</arg>
+<arg>${stt_bag3}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.378" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.357" endtime="20210628 14:28:45.378"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[3].stt_no</arg>
+<arg>${stt_no14koli}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:45.398" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.378" endtime="20210628 14:28:45.398"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${bodyrequest}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:45.400" level="INFO">${JSON_SCHEMA} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:45.399" endtime="20210628 14:28:45.400"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:45.401" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:45.400" endtime="20210628 14:28:45.401"/>
+</kw>
+<kw name="PUT" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a PUT request.</doc>
+<msg timestamp="20210628 14:28:45.711" level="INFO">PUT Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ path_url=/hydra/v1/cargo 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg', 'Content-Length': '424', 'Content-Type': 'application/json'} 
+ body=b'{"cargo_no": "Car11LP1624865322503", "actual_total_gross_weight": 6, "actual_total_volume_weight": 5, "bag_or_stt": [{"bag_no": "SKB-1624865324850", "stt_no": "11LP1624865323594", "action": "add"}, {"bag_no": "SKB-1624865324850", "stt_no": "11LP1624865324012", "action": "add"}, {"bag_no": "SKB-1624865324850", "stt_no": "11LP1624865324412", "action": "add"}, {"bag_no": "", "stt_no": "11LP1624865325223", "action": "add"}]}' 
+ </msg>
+<msg timestamp="20210628 14:28:45.711" level="INFO">PUT Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '249', 'X-Request-Id': 'xNWbsYZBOBgPU8GLcGnFZE8UzPICvQ5X', 'Date': 'Mon, 28 Jun 2021 07:28:45 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '259', 'X-Kong-Proxy-Latency': '1', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success","data":{"cargo_id":236,"cargo_no":"Car11LP1624865322503","total_stt_success":4,"total_stt_failed":0,"list_stt_failed":[],"total_stt_add_success":4,"total_stt_removee_success":0,"total_stt_in_cargo":5}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:45.711" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:45.401" endtime="20210628 14:28:45.711"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:45.714" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_id': 236, 'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 4, 'total_stt_failed': 0, 'list_stt_failed': [], 'total_stt_add_...</msg>
+<status status="PASS" starttime="20210628 14:28:45.712" endtime="20210628 14:28:45.714"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:45.715" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_id': 236, 'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 4, 'total_stt_failed': 0, 'list_stt_failed': [], 'total_stt_add_...</msg>
+<status status="PASS" starttime="20210628 14:28:45.715" endtime="20210628 14:28:45.716"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:45.718" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_id': 236, 'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 4, 'total_stt_failed': 0, 'list_stt_failed': [], 'total_stt_add_...</msg>
+<status status="PASS" starttime="20210628 14:28:45.716" endtime="20210628 14:28:45.718"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${jsondata}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20210628 14:28:45.719" endtime="20210628 14:28:45.719"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:45.721" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:45.719" endtime="20210628 14:28:45.721"/>
+</kw>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['total_stt_success']}</arg>
+<arg>"0"</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:45.723" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:45.721" endtime="20210628 14:28:45.723"/>
+</kw>
+<doc>add bag and stt</doc>
+<status status="PASS" starttime="20210628 14:28:45.198" endtime="20210628 14:28:45.723"/>
+</test>
+<test id="s1-t8" name="Detail Cargo 1">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:45.725" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:45.724" endtime="20210628 14:28:45.725"/>
+</kw>
+<kw name="GET" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo/detail-cargo-stt</arg>
+<arg>params=cargo_no=${cargo_no}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20210628 14:28:46.157" level="INFO">GET Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ path_url=/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg'} 
+ body=None 
+ </msg>
+<msg timestamp="20210628 14:28:46.158" level="INFO">GET Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Transfer-Encoding': 'chunked', 'X-Request-Id': 'sexrJbggLk4jPVqXYmIt168ha507p3mh', 'Date': 'Mon, 28 Jun 2021 07:28:46 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '372', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success","data":{"origin_city":"BOGOR","destination_city":"SUKABUMI","cargo_number":"Car11LP1624865322503","vehicle_number":"R 1234 F","cargo_type":"truck","partner_name":"Console Bogor Raya","partner_type":"console","cargo_commodity":"BEVERAGE FROZEN","cargo_product":"REGULAR","estimation_departure_data":"2021-06-28T14:28:42+07:00","departure_date":"2021-06-28T08:00:01+07:00","arrival_date":"2021-06-28T10:00:01+07:00","total_stt":5,"total_piece":18,"total_gross_weight":18,"total_volume_weight":18,"total_actual_cargo_gross_weight":6,"total_actual_cargo_volume_weight":5,"total_est_cargo_gross_weight":1,"total_est_cargo_volume_weight":1,"created_name":"fconbgr","origin_airport_code":"","destination_airport_code":"","origin_airport_name":"","destination_airport_name":"","origin_city_code":"BGR","destination_city_code":"SKB","created_at":"2021-06-28T14:28:42+07:00","created_by":157,"updated_at":"2021-06-28T14:28:42+07:00","update_by":157,"detail_stt":[{"BagNumber":"","SttNumber":"11LP1624865322503","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865323594","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865324012","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865324412","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:46.158" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:45.726" endtime="20210628 14:28:46.158"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:46.161" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:46.158" endtime="20210628 14:28:46.161"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:46.163" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:46.161" endtime="20210628 14:28:46.164"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:46.166" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:46.164" endtime="20210628 14:28:46.166"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:46.168" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:46.167" endtime="20210628 14:28:46.168"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${jsondata['data']['total_piece']}</arg>
+<arg>18</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20210628 14:28:46.170" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:46.168" endtime="20210628 14:28:46.170"/>
+</kw>
+<doc>total piece boleh &gt; 15 koli</doc>
+<status status="PASS" starttime="20210628 14:28:45.724" endtime="20210628 14:28:46.170"/>
+</test>
+<test id="s1-t9" name="Edit Cargo Remove 17 pcs">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/edit_cargo.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:46.173" level="INFO">${json} = {'cargo_no': '', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624593199727', 'stt_no': '11LP1624422140428', 'action': 'add'}, {'bag_no': 'SKB-162459...</msg>
+<status status="PASS" starttime="20210628 14:28:46.172" endtime="20210628 14:28:46.173"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>cargo_no</arg>
+<arg>${cargo_no}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.209" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624593199727', 'stt_no': '11LP1624422140428', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:46.174" endtime="20210628 14:28:46.209"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].bag_no</arg>
+<arg>${bag_code}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.240" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624422140428', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:46.210" endtime="20210628 14:28:46.240"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].stt_no</arg>
+<arg>${stt_bag1}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.261" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'add'}, {'...</msg>
+<status status="PASS" starttime="20210628 14:28:46.240" endtime="20210628 14:28:46.261"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].action</arg>
+<arg>remove</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.280" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.261" endtime="20210628 14:28:46.280"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[1].bag_no</arg>
+<arg>${bag_code}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.300" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.280" endtime="20210628 14:28:46.300"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[1].stt_no</arg>
+<arg>${stt_bag2}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.319" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.300" endtime="20210628 14:28:46.319"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[1].action</arg>
+<arg>remove</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.338" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.319" endtime="20210628 14:28:46.338"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[2].bag_no</arg>
+<arg>${bag_code}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.358" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.339" endtime="20210628 14:28:46.358"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[2].stt_no</arg>
+<arg>${stt_bag3}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.378" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.358" endtime="20210628 14:28:46.378"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[2].action</arg>
+<arg>remove</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.397" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.378" endtime="20210628 14:28:46.397"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[3].stt_no</arg>
+<arg>${stt_no14koli}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.417" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.397" endtime="20210628 14:28:46.417"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[3].action</arg>
+<arg>remove</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:46.437" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.417" endtime="20210628 14:28:46.437"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${bodyrequest}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:46.439" level="INFO">${JSON_SCHEMA} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': 'SKB-1624865324850', 'stt_no': '11LP1624865323594', 'action': 'remove'},...</msg>
+<status status="PASS" starttime="20210628 14:28:46.438" endtime="20210628 14:28:46.439"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:46.440" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:46.439" endtime="20210628 14:28:46.440"/>
+</kw>
+<kw name="PUT" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a PUT request.</doc>
+<msg timestamp="20210628 14:28:46.751" level="INFO">PUT Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ path_url=/hydra/v1/cargo 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg', 'Content-Length': '436', 'Content-Type': 'application/json'} 
+ body=b'{"cargo_no": "Car11LP1624865322503", "actual_total_gross_weight": 6, "actual_total_volume_weight": 5, "bag_or_stt": [{"bag_no": "SKB-1624865324850", "stt_no": "11LP1624865323594", "action": "remove"}, {"bag_no": "SKB-1624865324850", "stt_no": "11LP1624865324012", "action": "remove"}, {"bag_no": "SKB-1624865324850", "stt_no": "11LP1624865324412", "action": "remove"}, {"bag_no": "", "stt_no": "11LP1624865325223", "action": "remove"}]}' 
+ </msg>
+<msg timestamp="20210628 14:28:46.751" level="INFO">PUT Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '249', 'X-Request-Id': 'Rq6Wub5IfM056fFQVLD3hX0nHKu4cYyo', 'Date': 'Mon, 28 Jun 2021 07:28:46 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '249', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success","data":{"cargo_id":236,"cargo_no":"Car11LP1624865322503","total_stt_success":4,"total_stt_failed":0,"list_stt_failed":[],"total_stt_add_success":0,"total_stt_removee_success":4,"total_stt_in_cargo":1}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:46.751" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:46.440" endtime="20210628 14:28:46.751"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:46.753" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_id': 236, 'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 4, 'total_stt_failed': 0, 'list_stt_failed': [], 'total_stt_add_...</msg>
+<status status="PASS" starttime="20210628 14:28:46.752" endtime="20210628 14:28:46.753"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:46.754" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_id': 236, 'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 4, 'total_stt_failed': 0, 'list_stt_failed': [], 'total_stt_add_...</msg>
+<status status="PASS" starttime="20210628 14:28:46.754" endtime="20210628 14:28:46.754"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:46.757" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'cargo_id': 236, 'cargo_no': 'Car11LP1624865322503', 'total_stt_success': 4, 'total_stt_failed': 0, 'list_stt_failed': [], 'total_stt_add_...</msg>
+<status status="PASS" starttime="20210628 14:28:46.755" endtime="20210628 14:28:46.757"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${jsondata}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20210628 14:28:46.757" endtime="20210628 14:28:46.757"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:46.759" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:46.758" endtime="20210628 14:28:46.759"/>
+</kw>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['total_stt_success']}</arg>
+<arg>"0"</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:46.761" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:46.760" endtime="20210628 14:28:46.762"/>
+</kw>
+<doc>remove bag and stt tidak boleh sampai habis piecenya</doc>
+<status status="PASS" starttime="20210628 14:28:46.171" endtime="20210628 14:28:46.763"/>
+</test>
+<test id="s1-t10" name="Detail Cargo 2">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:46.766" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:46.765" endtime="20210628 14:28:46.766"/>
+</kw>
+<kw name="GET" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo/detail-cargo-stt</arg>
+<arg>params=cargo_no=${cargo_no}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20210628 14:28:47.236" level="INFO">GET Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ path_url=/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg'} 
+ body=None 
+ </msg>
+<msg timestamp="20210628 14:28:47.237" level="INFO">GET Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo/detail-cargo-stt?cargo_no=Car11LP1624865322503 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Transfer-Encoding': 'chunked', 'X-Request-Id': '4C0AblWUgaehhD9GID0MrcvWdEnVXtQA', 'Date': 'Mon, 28 Jun 2021 07:28:47 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '370', 'X-Kong-Proxy-Latency': '1', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"success":true,"code":200,"message":"Success","data":{"origin_city":"BOGOR","destination_city":"SUKABUMI","cargo_number":"Car11LP1624865322503","vehicle_number":"R 1234 F","cargo_type":"truck","partner_name":"Console Bogor Raya","partner_type":"console","cargo_commodity":"BEVERAGE FROZEN","cargo_product":"REGULAR","estimation_departure_data":"2021-06-28T14:28:42+07:00","departure_date":"2021-06-28T08:00:01+07:00","arrival_date":"2021-06-28T10:00:01+07:00","total_stt":1,"total_piece":1,"total_gross_weight":1,"total_volume_weight":1,"total_actual_cargo_gross_weight":6,"total_actual_cargo_volume_weight":5,"total_est_cargo_gross_weight":1,"total_est_cargo_volume_weight":1,"created_name":"fconbgr","origin_airport_code":"","destination_airport_code":"","origin_airport_name":"","destination_airport_name":"","origin_city_code":"BGR","destination_city_code":"SKB","created_at":"2021-06-28T14:28:42+07:00","created_by":157,"updated_at":"2021-06-28T14:28:42+07:00","update_by":157,"detail_stt":[{"BagNumber":"","SttNumber":"11LP1624865322503","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865325223","TotalPiece":14,"GrossWeight":14,"VolumeWeight":14,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865323594","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865324012","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"},{"BagNumber":"","SttNumber":"11LP1624865324412","TotalPiece":1,"GrossWeight":1,"VolumeWeight":1,"ProductType":"REGPACK","CommodityName":"LDP"}]}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:47.237" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:46.766" endtime="20210628 14:28:47.237"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20210628 14:28:47.240" level="INFO">${data} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:47.238" endtime="20210628 14:28:47.240"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20210628 14:28:47.242" level="INFO">${value} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:47.240" endtime="20210628 14:28:47.242"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:47.245" level="INFO">${jsondata} = {'success': True, 'code': 200, 'message': 'Success', 'data': {'origin_city': 'BOGOR', 'destination_city': 'SUKABUMI', 'cargo_number': 'Car11LP1624865322503', 'vehicle_number': 'R 1234 F', 'cargo_type'...</msg>
+<status status="PASS" starttime="20210628 14:28:47.242" endtime="20210628 14:28:47.246"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20210628 14:28:47.248" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:47.246" endtime="20210628 14:28:47.248"/>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${jsondata['data']['total_piece']}</arg>
+<arg>1</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20210628 14:28:47.250" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210628 14:28:47.249" endtime="20210628 14:28:47.250"/>
+</kw>
+<doc>total piece yang tersisa minimal 1 piece (1 bag) atau 1 stt</doc>
+<status status="PASS" starttime="20210628 14:28:46.763" endtime="20210628 14:28:47.250"/>
+</test>
+<test id="s1-t11" name="Edit Cargo Remove last pcs">
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>/Users/lion/Downloads/roboframework/TestCases/../SchemaObject/edit_cargo_last_pcs.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20210628 14:28:47.253" level="INFO">${json} = {'cargo_no': '', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': '', 'stt_no': '11LP1624422141308', 'action': 'add'}]}</msg>
+<status status="PASS" starttime="20210628 14:28:47.252" endtime="20210628 14:28:47.253"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>cargo_no</arg>
+<arg>${cargo_no}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:47.287" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': '', 'stt_no': '11LP1624422141308', 'action': 'add'}]}</msg>
+<status status="PASS" starttime="20210628 14:28:47.253" endtime="20210628 14:28:47.287"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].stt_no</arg>
+<arg>${stt_no1koli}</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:47.318" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': '', 'stt_no': '11LP1624865322503', 'action': 'add'}]}</msg>
+<status status="PASS" starttime="20210628 14:28:47.288" endtime="20210628 14:28:47.318"/>
+</kw>
+<kw name="Update Value To Json" library="JSONLibrary">
+<var>${bodyrequest}</var>
+<arg>${json}</arg>
+<arg>$.bag_or_stt[0].action</arg>
+<arg>remove</arg>
+<doc>Update value to JSON using JSONPath</doc>
+<msg timestamp="20210628 14:28:47.340" level="INFO">${bodyrequest} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': '', 'stt_no': '11LP1624865322503', 'action': 'remove'}]}</msg>
+<status status="PASS" starttime="20210628 14:28:47.318" endtime="20210628 14:28:47.340"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${JSON_SCHEMA}</arg>
+<arg>${bodyrequest}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20210628 14:28:47.341" level="INFO">${JSON_SCHEMA} = {'cargo_no': 'Car11LP1624865322503', 'actual_total_gross_weight': 6, 'actual_total_volume_weight': 5, 'bag_or_stt': [{'bag_no': '', 'stt_no': '11LP1624865322503', 'action': 'remove'}]}</msg>
+<status status="PASS" starttime="20210628 14:28:47.340" endtime="20210628 14:28:47.341"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${header}</var>
+<arg>Authorization=Bearer ${Tokenfconbgr}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20210628 14:28:47.342" level="INFO">${header} = {'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX...</msg>
+<status status="PASS" starttime="20210628 14:28:47.341" endtime="20210628 14:28:47.342"/>
+</kw>
+<kw name="PUT" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${base_url}/hydra/v1/cargo</arg>
+<arg>json=${JSON_SCHEMA}</arg>
+<arg>headers=${header}</arg>
+<doc>Sends a PUT request.</doc>
+<msg timestamp="20210628 14:28:47.474" level="INFO">PUT Request : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ path_url=/hydra/v1/cargo 
+ headers={'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjUyOTczMjEsImlhdCI6MTYyNDg2NTMyMSwiYWNjb3VudF9pZCI6MTU3LCJhY2NvdW50X25hbWUiOiJmY29uYmdyIiwidHlwZSI6InBhcnRuZXIiLCJwYXJ0bmVyX3R5cGUiOiJjb25zb2xlIiwicGFydG5lcl9pZCI6MTYsInBhcnRuZXJfY29kZSI6IkNPTlNCR1IiLCJwYXJ0bmVyX25hbWUiOiJDb25zb2xlIEJvZ29yIFJheWEiLCJjbGllbnRfaWQiOjAsImNsaWVudF9uYW1lIjoiIiwiY2xpZW50X2NvZGUiOiIiLCJ1c2VybmFtZSI6ImZjb25iZ3IiLCJzdXBlciI6ZmFsc2UsImFjY291bnRfcm9sZV9uYW1lIjoiYWRtaW5fY29uc29sZSJ9.fLAbjGFUzguiTuXqozylcF07SrpfulzHzoqX7BwbL235AMyT8bp90oYGc4lNEBDC4IvyUp7k9OWYnOOGs8akRLC1oGFtW5d3QqFcokyxiCovHsIXNPEtln_pqOdGQR9_OYFqdZibhbKQe1711q1SEyvA7PhmM55CwJMNQ79xp4guKPr6xuXAFjwKhd4mi4eAr2r7itEDsuN7n1c8W2S48qtVHbdS8MnmP8vRkvRorW6QzTxLUG_ruORRic-RVe1-bEVAzqNbqDorQjcoM-T_DGyDcsYmnYReFt0xy0cSj_Sm7VY8WQR5XSQMAm4t6Q-5C2qi-r-2OrmwyUK51DaJdg', 'Content-Length': '184', 'Content-Type': 'application/json'} 
+ body=b'{"cargo_no": "Car11LP1624865322503", "actual_total_gross_weight": 6, "actual_total_volume_weight": 5, "bag_or_stt": [{"bag_no": "", "stt_no": "11LP1624865322503", "action": "remove"}]}' 
+ </msg>
+<msg timestamp="20210628 14:28:47.475" level="INFO">PUT Response : url=https://api.stg-genesis.lionparcel.com/hydra/v1/cargo 
+ status=400, reason=Bad Request 
+ headers={'Content-Type': 'application/json; charset=UTF-8', 'Content-Length': '109', 'X-Request-Id': 'i4tQ9ce1LBjCvBNEPKK4srUb06svMPPX', 'Date': 'Mon, 28 Jun 2021 07:28:47 GMT', 'vary': 'Origin', 'Access-Control-Allow-Origin': '*', 'X-Kong-Upstream-Latency': '84', 'X-Kong-Proxy-Latency': '0', 'Via': 'kong/2.1.4, 1.1 google', 'Alt-Svc': 'clear'} 
+ body={"code":400,"message":{"en":"Cargo must have at least 1 stt","id":"Cargo harus mempunyai setidaknya 1 stt"}}
+ 
+ </msg>
+<msg timestamp="20210628 14:28:47.477" level="FAIL">HTTPError: 400 Client Error: Bad Request for url: https://api.stg-genesis.lionparcel.com/hydra/v1/cargo</msg>
+<status status="FAIL" starttime="20210628 14:28:47.342" endtime="20210628 14:28:47.477"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${data}</var>
+<arg>${resp.json()}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<status status="NOT RUN" starttime="20210628 14:28:47.477" endtime="20210628 14:28:47.477"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${value}</var>
+<arg>${data}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" starttime="20210628 14:28:47.478" endtime="20210628 14:28:47.478"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${jsondata}</arg>
+<arg>${value}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" starttime="20210628 14:28:47.478" endtime="20210628 14:28:47.478"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${jsondata}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" starttime="20210628 14:28:47.478" endtime="20210628 14:28:47.479"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" starttime="20210628 14:28:47.479" endtime="20210628 14:28:47.479"/>
+</kw>
+<kw name="Should Not Be Equal As Strings" library="BuiltIn">
+<arg>${jsondata['data']['total_stt_success']}</arg>
+<arg>"0"</arg>
+<doc>Fails if objects are equal after converting them to strings.</doc>
+<status status="NOT RUN" starttime="20210628 14:28:47.479" endtime="20210628 14:28:47.479"/>
+</kw>
+<doc>remove bag and stt tidak boleh sampai habis piecenya</doc>
+<status status="FAIL" starttime="20210628 14:28:47.251" endtime="20210628 14:28:47.480">HTTPError: 400 Client Error: Bad Request for url: https://api.stg-genesis.lionparcel.com/hydra/v1/cargo</status>
+</test>
+<status status="FAIL" starttime="20210628 14:28:41.477" endtime="20210628 14:28:47.482"/>
 </suite>
 <statistics>
 <total>
-<stat fail="0" skip="0" pass="3">All Tests</stat>
+<stat pass="10" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat fail="0" skip="0" pass="1">Failed Login</stat>
-<stat fail="0" skip="0" pass="1">Get Profile</stat>
-<stat fail="0" skip="0" pass="1">Success Login</stat>
 </tag>
 <suite>
-<stat fail="0" skip="0" id="s1" name="TC Auth" pass="3">TC Auth</stat>
+<stat pass="10" fail="1" skip="0" id="s1" name="TC Edit Cargo">TC Edit Cargo</stat>
 </suite>
 </statistics>
 <errors>
-<msg timestamp="20210623 23:32:25.039" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
-<msg timestamp="20210623 23:32:25.359" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
-<msg timestamp="20210623 23:32:25.371" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
-<msg timestamp="20210623 23:32:25.535" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
-<msg timestamp="20210623 23:32:25.555" level="WARN">Keyword 'RequestsLibrary.Get Request' is deprecated. Please use `GET On Session` instead.</msg>
-<msg timestamp="20210623 23:32:25.748" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
 </errors>
 </robot>

@@ -1,0 +1,26 @@
+{
+    "is_cargo_plane_manual":true,
+    "origin_airport_code":"",
+    "destination_airport_code":"",
+    "est_total_cargo_grossweigth":1,
+    "est_total_cargo_volumeweight":1,
+    "cargo_no":"car22jun21d",
+    "cargo_vehicle_no":"R 1234 F",
+    "actual_total_cargo_grossweigth":1,
+    "actual_total_cargo_volumeweight":1,
+    "route":"",
+    "total_stt":2,
+    "total_piece":2,
+    "cargo_commodity":"XXXX",
+    "product_cargo":"REGULAR",
+    "cargo_type":"truck",
+    "origin_city_code":"BGR",
+    "destination_city_code":"SKB",
+    "departure_date":"2021-06-15 08:04:05",
+    "arrival_date":"2021-06-16 10:04:05",
+    "bag_or_stt":[
+        {
+            "stt_no":""
+        }
+    ]
+}

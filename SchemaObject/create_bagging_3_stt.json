@@ -1,0 +1,10 @@
+{
+    "destination_city_code":"SKB",
+    "custom_gross_weight": 3,
+    "custom_length": 10,
+    "custom_width": 20,
+    "custom_height": 70,
+    "bag_stt": [
+        "","",""
+    ]
+}

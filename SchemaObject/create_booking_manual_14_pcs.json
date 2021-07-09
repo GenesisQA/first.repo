@@ -1,0 +1,120 @@
+{
+    "stt": {
+        "stt_no": "",
+        "is_mixpack": false,
+        "stt_shipment_id": "",
+        "stt_no_ref_external": "",
+        "stt_tax_number": "09.314.652.0-987.319",
+        "stt_goods_estimate_price": 50000,
+        "stt_goods_status": "ecommerce",
+        "stt_origin_city_id": "BGR",
+        "stt_origin_district_id": "DIST33301",
+        "stt_destination_city_id": "SKB",
+        "stt_destination_district_id": "DIST234",
+        "stt_sender_name": "RoboSender",
+        "stt_sender_phone": "080000000001",
+        "stt_sender_address": "Jl. Python 14 koli",
+        "stt_is_save_sender": false,
+        "stt_recipient_name": "RoboReceiver",
+        "stt_recipient_address": "Jl. PIP 3",
+        "stt_recipient_phone": "080000000002",
+        "stt_is_save_recipient": false,
+        "stt_insurance_type": "free",
+        "stt_product_type": "regpack",
+        "stt_gross_weight": 1,
+        "stt_volume_weight":1,
+        "stt_chargeable_weight": 1,
+        "stt_commodity_code": "LDP",
+        "stt_client_stt_id": 0,
+        "stt_vendor_stt_id": 0,
+        "stt_is_cod": false,
+        "stt_is_do": false,
+        "stt_is_woodpacking": false,
+        "stt_pieces": [
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            },
+            {
+                "stt_piece_length": 10,
+                "stt_piece_width": 20,
+                "stt_piece_height": 30,
+                "stt_piece_gross_weight": 1
+            }
+        ]
+    }
+}
